@@ -1,11 +1,18 @@
-# Welcome to your Jupyter Book
+# The Null Space
+Mathematical Dilly Dally-ing by Jackie
 
-This is a small sample book to give you a feel for how book content is
-structured.
-It shows off a few of the major file types, as well as some sample content.
-It does not go in-depth into any particular topic - check out [the Jupyter Book documentation](https://jupyterbook.org) for more information.
 
-Check out the content pages bundled with this sample book to see more.
+One good thing about doom-scrolling on TikTok was finding out everyone is creating their own **Personal Curriculum** for the month. It's essentially creating your own study plan, about anything you would like to learn more about.
+
+I have been self-studying for a while, but never formalized my plans in such an organized way before. This website is my space to document the things I learnt and tried. My interests are the intersection of mathematics, statistics, and classical machine learning.
+
+Since this is my learning space, there will be errors here. Feel free to reach out via [LinkedIn](https://www.linkedin.com/in/jbndoan/) to let me know.
+
+# About Me
+I'm an Applied Machine Learning Scientist in Toronto. My B.Sc. and M.Sc. were at Western University studying Pure Mathematics and Computational Neuroscience. After work I hang out with my cat Edie (below).
+
+![edie](edie.jpeg)
+
 
 ```{tableofcontents}
 ```
