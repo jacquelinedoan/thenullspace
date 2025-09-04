@@ -1,0 +1,1049 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Reinforcement Learning for Optimal Alpha Spending Function in Sequential Hypothesis Testing &#8212; The Null Space</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'sequential_test';</script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="The Null Space" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="The Null Space - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="The Null Space - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    The Null Space
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>Reinforcement Learning for Optimal Alpha Spending Function in Sequential Hypothesis Testing</strong></a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/jacquelinedoan/thenullspace" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/jacquelinedoan/thenullspace/issues/new?title=Issue%20on%20page%20%2Fsequential_test.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/sequential_test.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Reinforcement Learning for Optimal Alpha Spending Function in Sequential Hypothesis Testing</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-to-reach-a-foregone-conclusion"><em>Sampling to reach a foregone conclusion</em></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-to-reach-a-foregone-conclusion-but-formal">Sampling to reach a foregone conclusion, but formal.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lan-demets-1983">Lan &amp; DeMets (1983)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Introduction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constrained-markov-decision-process-cmdp">Constrained Markov Decision Process (CMDP)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-alpha-spending-over-iterations">Visualize alpha spending over iterations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#subtask">Subtask:</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="reinforcement-learning-for-optimal-alpha-spending-function-in-sequential-hypothesis-testing">
+<h1><strong>Reinforcement Learning for Optimal Alpha Spending Function in Sequential Hypothesis Testing</strong><a class="headerlink" href="#reinforcement-learning-for-optimal-alpha-spending-function-in-sequential-hypothesis-testing" title="Link to this heading">#</a></h1>
+<p>Rambling by Jacqueline.</p>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>Product experiements are commonly in the form of a <span class="math notranslate nohighlight">\(z\)</span>-test (or <span class="math notranslate nohighlight">\(t\)</span>-test), comparing the 2 means of some KPI of both the control and test groups, say <span class="math notranslate nohighlight">\(\mu_1\)</span> and <span class="math notranslate nohighlight">\(\mu_2\)</span> respectively. The test is of course conducted after all data is collected. Furthermore,
+$<span class="math notranslate nohighlight">\(H_0: \mu_1 = \mu_2\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(H_A: \mu_1 &lt; \mu_2\)</span>$</p>
+<p>Given significance level <span class="math notranslate nohighlight">\(\alpha\)</span>, if we find statistical significance, <span class="math notranslate nohighlight">\(H_0\)</span> is rejected and we accept <span class="math notranslate nohighlight">\(H_A\)</span>; the new product is considered a success.
+<em>However, what happens when we do not find significance?</em></p>
+<p>Say that we decided more data is needed and the data collection period is extended. Both the control and test groups grow in sample size. We then conduct the <span class="math notranslate nohighlight">\(z\)</span>-test a second time at some significance level. <em>Why don’t we continue this process until we reached significance?</em></p>
+<section id="sampling-to-reach-a-foregone-conclusion">
+<h3><em>Sampling to reach a foregone conclusion</em><a class="headerlink" href="#sampling-to-reach-a-foregone-conclusion" title="Link to this heading">#</a></h3>
+<p><strong>Type I Error</strong> (False Positive Error) is the risk of incorrectly rejecting a true <span class="math notranslate nohighlight">\(H_0\)</span>. In other words, we conclude the new version of the product is a success while it is not, risking shipping a product that does not have a positive effect on our customers.</p>
+<p><strong>Significance level <span class="math notranslate nohighlight">\(\alpha\)</span></strong> is also the maximum probability of observing Type I Errors that the experimenter will accept in the long run.</p>
+<p>If we conduct the test once, the probability of not getting a FP error is <span class="math notranslate nohighlight">\(1-\alpha\)</span>. If we conduct the tests above <span class="math notranslate nohighlight">\(k\)</span> times, each at <span class="math notranslate nohighlight">\(\alpha\)</span>, the change of observing at least one false positive grows
+$<span class="math notranslate nohighlight">\(P(\geq 1 \text{ FP }) = 1 - P(&lt; 1 \text{ FP }) = 1 - (1-\alpha)^k\)</span>$</p>
+<p><em>As <span class="math notranslate nohighlight">\(k \to ∞\)</span>, just by chance, the probability you make at least one FP increases.</em></p>
+</section>
+<section id="sampling-to-reach-a-foregone-conclusion-but-formal">
+<h3>Sampling to reach a foregone conclusion, but formal.<a class="headerlink" href="#sampling-to-reach-a-foregone-conclusion-but-formal" title="Link to this heading">#</a></h3>
+<p>Let <span class="math notranslate nohighlight">\(X_1, X_2, \dots \sim N(\mu, \sigma^2)\)</span> where <span class="math notranslate nohighlight">\(\sigma^2\)</span> is known. Consider the test of <span class="math notranslate nohighlight">\(H_0: \mu=0\)</span> and <span class="math notranslate nohighlight">\(H_A: \mu\neq 0\)</span>. Let <span class="math notranslate nohighlight">\(S_n = \sum_{i=1}^nX_i\)</span>. Under <span class="math notranslate nohighlight">\(H_0\)</span>, <span class="math notranslate nohighlight">\(S_n \sim N(0, n\sigma^2)\)</span>. Thus the rejection region is such that <span class="math notranslate nohighlight">\(|S_n|&gt;1.96\sigma\sqrt{n}\)</span> for <span class="math notranslate nohighlight">\(\alpha=0.05\)</span>. We will show that as <span class="math notranslate nohighlight">\(n\to ∞\)</span>, or, as we keep doing more iterim tests, we will eventually (in probability) arrive at the rejection region. <em>The Law of Iterated Logarithm</em> implies that
+$<span class="math notranslate nohighlight">\(\lim_{n\to ∞} \sup \frac{S_n}{\sigma\sqrt{2n\log \log n}}=1 \quad \text{ with probability } 1\)</span><span class="math notranslate nohighlight">\(
+In other words, \)</span>S_n$ is growing as fast as the denominator, which is unbounded.</p>
+</section>
+<section id="lan-demets-1983">
+<h3>Lan &amp; DeMets (1983)<a class="headerlink" href="#lan-demets-1983" title="Link to this heading">#</a></h3>
+<p>Recall the typical 2 sample problem, where we want to compare the responses to treatments A and B, say the responses follows the distributions <span class="math notranslate nohighlight">\(N(\mu_A, \sigma)\)</span> and <span class="math notranslate nohighlight">\(N(\mu_B, \sigma)\)</span> respectively, and <span class="math notranslate nohighlight">\(H_0: \mu_A = \mu_B\)</span>. Say there are <span class="math notranslate nohighlight">\(n\)</span> observations in each group (<span class="math notranslate nohighlight">\(2n\)</span> observations in total), and a <span class="math notranslate nohighlight">\(z\)</span>-test is conducted. Then we reject <span class="math notranslate nohighlight">\(H_0\)</span> if and only if
+$<span class="math notranslate nohighlight">\(Z=\left|\frac{\bar{X}_A - \bar{X}_B }{\sqrt{2\sigma^2/n}}\right|&gt;1.96\)</span>$</p>
+<p>Now, say we collect data such that once <span class="math notranslate nohighlight">\(n\)</span> new observations are collected in each group, we conduct another <span class="math notranslate nohighlight">\(z\)</span>-test, only on the new data for the sake of independence. We will conduct <span class="math notranslate nohighlight">\(K\)</span> tests in total, and there will be <span class="math notranslate nohighlight">\(2nK\)</span> observations at the end. The statistic at step <span class="math notranslate nohighlight">\(j\)</span> is
+$<span class="math notranslate nohighlight">\(Y_j = \frac{\bar{X}_{A_j} - \bar{X}_{A_j}}{\sqrt{2\sigma^2/n}} \sim N(\delta^*, 1)\)</span>$</p>
+<p>where <span class="math notranslate nohighlight">\(\delta^* = \frac{\delta}{\sqrt{2\sigma^2/n}}\)</span>. Then <span class="math notranslate nohighlight">\(S_k = \sum_j^kY_j \sim N(\sigma^*k, k)\)</span>. Then the rejection region per interim test is defined by boundaries <span class="math notranslate nohighlight">\(b_k\)</span>, namely
+$<span class="math notranslate nohighlight">\(|S_k|&gt;b_k\)</span><span class="math notranslate nohighlight">\(
+such that
+\)</span><span class="math notranslate nohighlight">\(P(|S_1|\leq b_1, \dots, |S_K|\leq b_K) \leq 1-\alpha\)</span><span class="math notranslate nohighlight">\(
+Equivalently, let \)</span>f<span class="math notranslate nohighlight">\( be the joint pdf of the score statistics,
+\)</span><span class="math notranslate nohighlight">\(\int^{b_1}_{-b_1} \dots \int^{b_K}_{-b_K} f(s_1, \dots, s_K)d_{s_1}\dots d_{s_K} = 1-\alpha\)</span>$</p>
+<p>Lan &amp; DeMets (1983) proposed the <span class="math notranslate nohighlight">\(\alpha\)</span>-spending function, <span class="math notranslate nohighlight">\(\alpha^*\)</span>, a non-decreasing function. The significance level to use at each step is <span class="math notranslate nohighlight">\(\alpha_k = \alpha^*(t_k) - \alpha^*(t_{k-1})\)</span>. They went further to suggest a functional form, namely
+$<span class="math notranslate nohighlight">\(\alpha^*(t) = \alpha \log (1+(e-1)t)\)</span>$
+for the set up in Pocock (1977).</p>
+</section>
+<section id="id1">
+<h3>Introduction<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>Sequential tests are statistical tests to solve the problem above. Well-known techniques include group sequential tests, always valid inference, and corrected-alpha approach. Sequential testing does not required the use of RL – the methodologies above are well-established and optimal.</p>
+<p>However, I’m particularly interested in group sequential tests as a (Constrained) Markov Decision Process. Under this view, the optimal <strong><span class="math notranslate nohighlight">\(\alpha\)</span> spending function</strong> is the optimal policy. This is a function that spreads <span class="math notranslate nohighlight">\(\alpha\)</span> over the sequence of <span class="math notranslate nohighlight">\(z\)</span>-tests, say <span class="math notranslate nohighlight">\(\alpha_1, \dots, \alpha_k\)</span>.</p>
+<p>One can describe what I’m doing below as this picture:</p>
+<p><img alt="300px-Bill_Gates'_Giant_Ping_Pong_Paddle.jpg" src="data:image/jpeg;base64,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" /></p>
+</section>
+<section id="constrained-markov-decision-process-cmdp">
+<h3>Constrained Markov Decision Process (CMDP)<a class="headerlink" href="#constrained-markov-decision-process-cmdp" title="Link to this heading">#</a></h3>
+<p>Consider a Decision Maker (DM) who is conducting a sequence of <span class="math notranslate nohighlight">\(K\)</span> 2-sample t-tests (unknown variance) between control and test groups with
+$<span class="math notranslate nohighlight">\(H_0: \mu_C=\mu_T \)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(H_A: \mu_C &lt; \mu_T\)</span><span class="math notranslate nohighlight">\(
+At each test \)</span>k$, the DM has 3 actions:</p>
+<ul class="simple">
+<li><p>Stop and Reject. If <span class="math notranslate nohighlight">\(H_A\)</span> is true: <span class="math notranslate nohighlight">\(+R_{TP} = 1\)</span></p></li>
+<li><p>Stop and Reject. If <span class="math notranslate nohighlight">\(H_0\)</span> is true: <span class="math notranslate nohighlight">\(-R_{FP} = -1\)</span></p></li>
+<li><p>Continue Sampling: <span class="math notranslate nohighlight">\(-c\)</span> for sampling cost</p></li>
+</ul>
+<p>At the terminal state <span class="math notranslate nohighlight">\(K\)</span>, the DM stops and accepts.</p>
+<hr class="docutils" />
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Class to simulate the sequential tests</span>
+<span class="k">class</span> <span class="nc">SequentialTEnv</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">mu0</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                 <span class="n">mu1</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                 <span class="n">sigma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                 <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+                 <span class="n">max_looks</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+                 <span class="n">batch_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                 <span class="n">mc_precompute_n</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span>
+                 <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mu0</span> <span class="o">=</span> <span class="n">mu0</span> <span class="c1"># control group</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mu1</span> <span class="o">=</span> <span class="n">mu1</span> <span class="c1"># test group</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="n">sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_looks</span> <span class="o">=</span> <span class="n">max_looks</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mc_precompute_n</span> <span class="o">=</span> <span class="n">mc_precompute_n</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+              <span class="n">hypothesis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># reseting for a new experiement</span>
+        <span class="k">if</span> <span class="n">hypothesis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hypothesis</span> <span class="o">=</span> <span class="n">hypothesis</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hypothesis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_seen</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha_rem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">history</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_state</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_sample_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Simulate the batch of control and test subjects</span>
+        <span class="n">x_c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mu0</span><span class="p">,</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">,</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">)</span>
+        <span class="n">mu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hypothesis</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu1</span>
+        <span class="n">x_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">,</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">x_c</span><span class="p">,</span> <span class="n">x_t</span>
+
+    <span class="k">def</span> <span class="nf">_get_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># % seen, out of max subjects</span>
+        <span class="n">frac_n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_seen</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_looks</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">)</span>
+        <span class="c1"># % alpha remaining</span>
+        <span class="n">frac_alpha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_rem</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">frac_n</span><span class="p">,</span> <span class="n">frac_alpha</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_ttest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_c</span><span class="p">,</span> <span class="n">x_t</span><span class="p">):</span>
+        <span class="c1"># calculate the t statistic</span>
+        <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_c</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_t</span><span class="p">)</span>
+        <span class="n">mean1</span><span class="p">,</span> <span class="n">mean2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x_c</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x_t</span><span class="p">)</span>
+        <span class="n">var1</span><span class="p">,</span> <span class="n">var2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">x_c</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">x_t</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># estimate variance</span>
+        <span class="n">se</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">var1</span><span class="o">/</span><span class="n">n1</span> <span class="o">+</span> <span class="n">var2</span><span class="o">/</span><span class="n">n2</span><span class="p">)</span>
+        <span class="n">t_stat</span> <span class="o">=</span> <span class="p">(</span><span class="n">mean1</span> <span class="o">-</span> <span class="n">mean2</span><span class="p">)</span> <span class="o">/</span> <span class="n">se</span>
+        <span class="n">df_num</span> <span class="o">=</span> <span class="p">(</span><span class="n">var1</span><span class="o">/</span><span class="n">n1</span> <span class="o">+</span> <span class="n">var2</span><span class="o">/</span><span class="n">n2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">df_den</span> <span class="o">=</span> <span class="p">(</span><span class="n">var1</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">((</span><span class="n">n1</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">n1</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span> <span class="o">+</span> <span class="p">(</span><span class="n">var2</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">((</span><span class="n">n2</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">n2</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df_num</span> <span class="o">/</span> <span class="n">df_den</span>
+        <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">t</span>
+        <span class="n">p_val</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">t_stat</span><span class="p">),</span> <span class="n">df</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">t_stat</span><span class="p">,</span> <span class="n">p_val</span>
+
+    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
+        <span class="c1"># Action = fraction of remaining alpha to spend</span>
+        <span class="n">frac</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="c1"># spend alpha</span>
+        <span class="n">spend</span> <span class="o">=</span> <span class="n">frac</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_rem</span>
+        <span class="n">spend</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">spend</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_rem</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha_rem</span> <span class="o">-=</span> <span class="n">spend</span>
+
+        <span class="c1"># Draw new batch</span>
+        <span class="n">x_c</span><span class="p">,</span> <span class="n">x_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sample_batch</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_seen</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span>
+
+        <span class="c1"># Pooled variance, Welch&#39;s t</span>
+        <span class="n">t_stat</span><span class="p">,</span> <span class="n">p_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ttest</span><span class="p">(</span><span class="n">x_c</span><span class="p">,</span> <span class="n">x_t</span><span class="p">)</span>
+
+        <span class="n">reward</span><span class="p">,</span> <span class="n">cost</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span> <span class="c1"># initialize</span>
+        <span class="k">if</span> <span class="n">p_val</span> <span class="o">&lt;</span> <span class="n">spend</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">done</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hypothesis</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">reward</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># true positive</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cost</span> <span class="o">=</span> <span class="mf">1.0</span>    <span class="c1"># false positive</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_seen</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_looks</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_rem</span> <span class="o">&lt;=</span> <span class="mf">1e-12</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">done</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_state</span><span class="p">(),</span> <span class="n">reward</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">done</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Framing the problem as a CMDP, our goal is to maximize power (probability of correct rejection) while under the constraint that the False Positive Rate is bounded by <span class="math notranslate nohighlight">\(\alpha\)</span>.
+$<span class="math notranslate nohighlight">\( P(\text{ Reject } H_0 | H_0 \text{ true })\leq \alpha\)</span>$</p>
+<p>The <strong>objective function</strong> is then,
+$<span class="math notranslate nohighlight">\(J(\pi) = E_\pi(\text{Power}) \quad \text{ s.t. } \quad  E_\pi(\text{Type I Error}) \leq \alpha \)</span><span class="math notranslate nohighlight">\(
+The objective function is also optimized for power if we optimize for utility (reward). Equivalently,
+\)</span><span class="math notranslate nohighlight">\(J(\pi)= E_{H_A}(\text{Utility}) \quad \text{ s.t. } \quad E_{H_0}(1\{\text{Reject}\}) \leq \alpha \)</span>$</p>
+<p>This is a contrained optimizatio problem, so we use <strong>Lagrangian Multiplier</strong> to formulate it into a saddle optimization problem:
+$<span class="math notranslate nohighlight">\(L(\pi, \lambda) = J(\pi) - \lambda\times(E_{H_0}(\text{Reject}) - \alpha )\)</span><span class="math notranslate nohighlight">\(
+We optimize \)</span>L$ by  <strong>Primal-Dual Alogrithm</strong>, i.e., iteratively</p>
+<ol class="arabic simple">
+<li><p><em>Policy Update</em>: Maximize <span class="math notranslate nohighlight">\(J(\pi)\)</span> via Proximal Policy Optimization (PPO)</p></li>
+<li><p><em>Multiplier Update</em>: Minimize <span class="math notranslate nohighlight">\(- \lambda\times(E_{H_0}(\text{Reject}) - \alpha )\)</span> via dual ascent algoritm for constraint</p></li>
+</ol>
+<hr class="docutils" />
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># PPO requires 2 NN, Actor (Policy Net) and Critic (Value Net)</span>
+
+<span class="c1"># PolicyNet:</span>
+<span class="c1"># Input: current state (_get_state output)</span>
+<span class="c1"># Output: prob dist over possible actions (possible alpha fraction spend)</span>
+
+
+<span class="k">class</span> <span class="nc">PolicyNet</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="mi">32</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">state_dim</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_std</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+        <span class="n">mu</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>  <span class="c1"># action in [0,1]</span>
+        <span class="n">std</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log_std</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mu</span><span class="p">,</span> <span class="n">std</span> <span class="c1"># of action distribution</span>
+
+    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+      <span class="c1"># sample action</span>
+        <span class="n">mu</span><span class="p">,</span> <span class="n">std</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">std</span><span class="p">)</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">sample</span><span class="p">(),</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="n">log_prob</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">action</span><span class="p">,</span> <span class="n">log_prob</span>
+
+<span class="c1"># ValueNet:</span>
+<span class="c1"># Input: current state</span>
+<span class="c1"># Output: expected cumulative reward</span>
+
+<span class="k">class</span> <span class="nc">ValueNet</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="mi">32</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">state_dim</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Primal-dual update</span>
+
+<span class="k">def</span> <span class="nf">run_training</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="c1"># Initialization</span>
+    <span class="n">env</span> <span class="o">=</span> <span class="n">SequentialTEnv</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">],</span>
+                        <span class="n">max_looks</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;max_looks&#39;</span><span class="p">],</span>
+                        <span class="n">batch_size</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;batch_size&#39;</span><span class="p">])</span>
+
+    <span class="n">policy</span> <span class="o">=</span> <span class="n">PolicyNet</span><span class="p">()</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">ValueNet</span><span class="p">()</span>
+    <span class="n">opt_pi</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">policy</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;lr&#39;</span><span class="p">])</span>
+    <span class="n">opt_v</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;lr&#39;</span><span class="p">])</span>
+
+    <span class="n">lambda_dual</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Initialize list to store cumulative alpha history</span>
+    <span class="n">cumulative_alpha_history</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">simulation_interval</span> <span class="o">=</span> <span class="mi">20</span> <span class="c1"># Record history every 20 iterations</span>
+
+    <span class="c1"># Training Loop</span>
+    <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;train_iters&#39;</span><span class="p">]):</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;batch_episodes&#39;</span><span class="p">]):</span>
+            <span class="c1"># Simulate under the null hypothesis to record alpha spending</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">hypothesis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">ep_reward</span><span class="p">,</span> <span class="n">ep_cost</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span>
+            <span class="n">log_probs</span><span class="p">,</span> <span class="n">states</span><span class="p">,</span> <span class="n">actions</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+            <span class="n">episode_cumulative_alpha</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">cumulative_spent</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+            <span class="k">while</span> <span class="ow">not</span> <span class="n">done</span><span class="p">:</span>
+                <span class="n">st</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="c1"># Use the current policy to sample action</span>
+                <span class="n">a</span><span class="p">,</span> <span class="n">logp</span> <span class="o">=</span> <span class="n">policy</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">st</span><span class="p">)</span>
+
+                <span class="c1"># Calculate alpha spent in this step</span>
+                <span class="c1"># Need to temporarily update env&#39;s alpha_rem to calculate alpha_to_spend correctly for recording</span>
+                <span class="n">temp_alpha_rem</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">alpha_rem</span>
+                <span class="n">alpha_to_spend</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">*</span> <span class="n">temp_alpha_rem</span>
+                <span class="n">alpha_to_spend</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">alpha_to_spend</span><span class="p">,</span> <span class="n">temp_alpha_rem</span><span class="p">)</span>
+
+                <span class="n">cumulative_spent</span> <span class="o">+=</span> <span class="n">alpha_to_spend</span>
+                <span class="n">episode_cumulative_alpha</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cumulative_spent</span><span class="p">)</span>
+
+
+                <span class="n">s_next</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">done</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+
+                <span class="n">log_probs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">logp</span><span class="p">)</span>
+                <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">st</span><span class="p">)</span>
+                <span class="n">actions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+                <span class="n">ep_reward</span> <span class="o">+=</span> <span class="n">r</span>
+                <span class="n">ep_cost</span> <span class="o">+=</span> <span class="n">c</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="n">s_next</span>
+
+            <span class="c1"># Pad episode_cumulative_alpha to max_looks</span>
+            <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">episode_cumulative_alpha</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;max_looks&#39;</span><span class="p">]:</span>
+                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">episode_cumulative_alpha</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                      <span class="n">episode_cumulative_alpha</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">episode_cumulative_alpha</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                 <span class="k">else</span><span class="p">:</span>
+                      <span class="n">episode_cumulative_alpha</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span> <span class="c1"># Should not happen if at least one step is taken</span>
+
+            <span class="n">batch</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">ep_reward</span><span class="p">,</span> <span class="n">ep_cost</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">log_probs</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">episode_cumulative_alpha</span><span class="p">)))</span>
+
+
+        <span class="c1"># Compute averages for training</span>
+        <span class="n">rewards</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">])</span>
+        <span class="n">costs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">])</span>
+        <span class="n">avg_reward</span> <span class="o">=</span> <span class="n">rewards</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="n">avg_cost</span> <span class="o">=</span> <span class="n">costs</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+        <span class="c1"># Dual update</span>
+        <span class="n">lambda_dual</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">lambda_dual</span> <span class="o">+</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;lr_dual&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">avg_cost</span> <span class="o">-</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]),</span> <span class="nb">min</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+
+        <span class="c1"># Policy update (surrogate loss)</span>
+        <span class="n">L_terms</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">R</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">logps</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">:</span> <span class="c1"># Ignore cumulative alpha for policy update</span>
+            <span class="n">L_terms</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">R</span> <span class="o">-</span> <span class="n">lambda_dual</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span> <span class="o">*</span> <span class="n">logps</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+        <span class="n">loss_pi</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">L_terms</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+        <span class="n">opt_pi</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss_pi</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">opt_pi</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+        <span class="c1"># Record cumulative alpha history at intervals</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">it</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">simulation_interval</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">it</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+             <span class="c1"># Compute average cumulative alpha across batch episodes</span>
+            <span class="n">batch_cumulative_alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">b</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">])</span>
+            <span class="n">average_cumulative_alpha_per_step</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">batch_cumulative_alpha</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">cumulative_alpha_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">average_cumulative_alpha_per_step</span><span class="p">)</span>
+
+        <span class="c1"># Logging</span>
+        <span class="k">if</span> <span class="n">it</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Iter </span><span class="si">{</span><span class="n">it</span><span class="si">}</span><span class="s2">: reward=</span><span class="si">{</span><span class="n">avg_reward</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, cost=</span><span class="si">{</span><span class="n">avg_cost</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, lambda=</span><span class="si">{</span><span class="n">lambda_dual</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">policy</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">cumulative_alpha_history</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DEFAULT_CONFIG</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+    <span class="s1">&#39;max_looks&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+    <span class="s1">&#39;batch_size&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s1">&#39;lr&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
+    <span class="s1">&#39;lr_dual&#39;</span><span class="p">:</span> <span class="mf">1e-2</span><span class="p">,</span>
+    <span class="s1">&#39;train_iters&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="c1"># num times NN weights are updated</span>
+    <span class="s1">&#39;batch_episodes&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="c1"># in each train iter, experiments repetition</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">policy</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">run_training</span><span class="p">(</span><span class="n">DEFAULT_CONFIG</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 0: reward=0.000, cost=0.020, lambda=1.000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 10: reward=0.000, cost=0.060, lambda=0.999
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 20: reward=0.000, cost=0.080, lambda=0.999
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 30: reward=0.000, cost=0.040, lambda=0.998
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 40: reward=0.000, cost=0.040, lambda=0.999
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 50: reward=0.000, cost=0.060, lambda=1.003
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 60: reward=0.000, cost=0.060, lambda=1.004
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 70: reward=0.000, cost=0.060, lambda=1.005
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 80: reward=0.000, cost=0.080, lambda=1.007
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 90: reward=0.000, cost=0.060, lambda=1.006
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 100: reward=0.000, cost=0.060, lambda=1.005
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="nn">Input In [5],</span> in <span class="ni">&lt;cell line: 11&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">DEFAULT_CONFIG</span> <span class="o">=</span> <span class="p">{</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="s1">&#39;max_looks&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="s1">&#39;batch_episodes&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="c1"># in each train iter, experiments repetition</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="p">}</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">12</span>     <span class="n">policy</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">run_training</span><span class="p">(</span><span class="n">DEFAULT_CONFIG</span><span class="p">)</span>
+
+<span class="nn">Input In [4],</span> in <span class="ni">run_training</span><span class="nt">(config)</span>
+<span class="g g-Whitespace">     </span><span class="mi">33</span> <span class="n">st</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">34</span> <span class="c1"># Use the current policy to sample action</span>
+<span class="ne">---&gt; </span><span class="mi">35</span> <span class="n">a</span><span class="p">,</span> <span class="n">logp</span> <span class="o">=</span> <span class="n">policy</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">st</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">37</span> <span class="c1"># Calculate alpha spent in this step</span>
+<span class="g g-Whitespace">     </span><span class="mi">38</span> <span class="c1"># Need to temporarily update env&#39;s alpha_rem to calculate alpha_to_spend correctly for recording</span>
+<span class="g g-Whitespace">     </span><span class="mi">39</span> <span class="n">temp_alpha_rem</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">alpha_rem</span>
+
+<span class="nn">Input In [3],</span> in <span class="ni">PolicyNet.sample</span><span class="nt">(self, x)</span>
+<span class="g g-Whitespace">     </span><span class="mi">25</span> <span class="n">mu</span><span class="p">,</span> <span class="n">std</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">26</span> <span class="n">dist</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">std</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">27</span> <span class="n">action</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">sample</span><span class="p">(),</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">28</span> <span class="n">log_prob</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">29</span> <span class="k">return</span> <span class="n">action</span><span class="p">,</span> <span class="n">log_prob</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/torch/distributions/normal.py:70,</span> in <span class="ni">Normal.sample</span><span class="nt">(self, sample_shape)</span>
+<span class="g g-Whitespace">     </span><span class="mi">68</span> <span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extended_shape</span><span class="p">(</span><span class="n">sample_shape</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">69</span> <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+<span class="ne">---&gt; </span><span class="mi">70</span>     <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loc</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">shape</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">shape</span><span class="p">))</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="visualize-alpha-spending-over-iterations">
+<h2>Visualize alpha spending over iterations<a class="headerlink" href="#visualize-alpha-spending-over-iterations" title="Link to this heading">#</a></h2>
+<section id="subtask">
+<h3>Subtask:<a class="headerlink" href="#subtask" title="Link to this heading">#</a></h3>
+<p>Plot the recorded cumulative alpha spending curves for different training iterations on the same graph to show the evolution of the learned alpha spending function.</p>
+<p><strong>Reasoning</strong>:
+Plot the recorded cumulative alpha spending curves for different training iterations on the same graph to show the evolution of the learned alpha spending function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cumulative_alpha_history</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(20,)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Run the training with the updated function to get the history</span>
+<span class="n">policy</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">cumulative_alpha_history</span> <span class="o">=</span> <span class="n">run_training</span><span class="p">(</span><span class="n">DEFAULT_CONFIG</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 0: reward=0.000, cost=0.040, lambda=1.000
+Iter 10: reward=0.000, cost=0.100, lambda=1.000
+Iter 20: reward=0.000, cost=0.020, lambda=1.001
+Iter 30: reward=0.000, cost=0.020, lambda=1.001
+Iter 40: reward=0.000, cost=0.060, lambda=1.001
+Iter 50: reward=0.000, cost=0.060, lambda=1.002
+Iter 60: reward=0.000, cost=0.100, lambda=1.002
+Iter 70: reward=0.000, cost=0.060, lambda=1.002
+Iter 80: reward=0.000, cost=0.000, lambda=1.003
+Iter 90: reward=0.000, cost=0.040, lambda=1.002
+Iter 100: reward=0.000, cost=0.020, lambda=1.001
+Iter 110: reward=0.000, cost=0.000, lambda=1.001
+Iter 120: reward=0.000, cost=0.000, lambda=1.000
+Iter 130: reward=0.000, cost=0.020, lambda=0.998
+Iter 140: reward=0.000, cost=0.060, lambda=0.998
+Iter 150: reward=0.000, cost=0.040, lambda=0.999
+Iter 160: reward=0.000, cost=0.000, lambda=0.996
+Iter 170: reward=0.000, cost=0.080, lambda=0.997
+Iter 180: reward=0.000, cost=0.020, lambda=0.997
+Iter 190: reward=0.000, cost=0.120, lambda=0.998
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">max_steps</span> <span class="o">=</span> <span class="n">DEFAULT_CONFIG</span><span class="p">[</span><span class="s1">&#39;max_looks&#39;</span><span class="p">]</span>
+
+<span class="n">step_numbers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">simulation_interval</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># This should match the interval used in run_training</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">cumulative_alpha</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cumulative_alpha_history</span><span class="p">):</span>
+    <span class="n">iteration</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">simulation_interval</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">step_numbers</span><span class="p">,</span> <span class="n">cumulative_alpha</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Iteration </span><span class="si">{</span><span class="n">iteration</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span> <span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">alpha_star</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
+  <span class="n">k</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+  <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">/</span><span class="n">k</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+  <span class="k">return</span> <span class="n">alpha</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">e</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">k</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">alpha_star</span><span class="p">(</span><span class="n">step_numbers</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Pocock&#39;</span> <span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">step_numbers</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cumulative_alpha_history</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Mean alpha spent&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Step Number&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Cumulative Alpha Spent&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Evolution of Learned Alpha Spending Function Over Training Iterations&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">DEFAULT_CONFIG</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Total Alpha (</span><span class="si">{</span><span class="n">DEFAULT_CONFIG</span><span class="p">[</span><span class="s2">&quot;alpha&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/e1052d70268b9e27b6f9dde2d32ca63bb9453ca2733710b469371bf49421d333.png" src="_images/e1052d70268b9e27b6f9dde2d32ca63bb9453ca2733710b469371bf49421d333.png" />
+</div>
+</div>
+<p>So interesting! I was expecting some sort of convergence to Lan &amp; DeMets, but the RL learned policy suggests spending <strong>way</strong> more alpha at the begining of the trial. Both alpha spending strategies keep early significance level high, keeping the trial going to accumulate more data. I wonder which functional form the RL converged to.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">The Null Space</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-to-reach-a-foregone-conclusion"><em>Sampling to reach a foregone conclusion</em></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-to-reach-a-foregone-conclusion-but-formal">Sampling to reach a foregone conclusion, but formal.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lan-demets-1983">Lan &amp; DeMets (1983)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Introduction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constrained-markov-decision-process-cmdp">Constrained Markov Decision Process (CMDP)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-alpha-spending-over-iterations">Visualize alpha spending over iterations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#subtask">Subtask:</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Jacqueline
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
