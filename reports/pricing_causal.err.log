@@ -1,0 +1,142 @@
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/nbclient/client.py", line 1263, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/nbclient/util.py", line 85, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/nbclient/util.py", line 60, in just_run
+    return loop.run_until_complete(coro)
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/asyncio/base_events.py", line 646, in run_until_complete
+    return future.result()
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/nbclient/client.py", line 701, in async_execute
+    await self.async_execute_cell(
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/nbclient/client.py", line 1019, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/nbclient/client.py", line 913, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+cust, sell, rev, item, prod, geo, cat, orders, pay = [pd.read_csv(f"{path}/{file}") for file in os.listdir(path)]
+master = orders.merge(cust, on="customer_id", how='left')\
+               .merge(item, on="order_id", how='left')\
+               .merge(prod, on="product_id", how='left')\
+               .merge(cat, on="product_category_name", how='left')\
+               .merge(sell, on="seller_id", how='left')
+
+#  .merge(rev, on="order_id", how='left')
+#  .merge(pay, on="order_id", how='left')\
+
+# Drop entries where price is null
+master.dropna(subset=['price'], inplace=True)
+master.reset_index(drop=True, inplace=True)
+
+# Handle Datetime data
+master['order_purchase_timestamp'] = pd.to_datetime(master.order_purchase_timestamp,
+                                             format='%Y-%m-%d %H:%M:%S')
+master['order_estimated_delivery_date'] = pd.to_datetime(master.order_estimated_delivery_date,
+                                              format='%Y-%m-%d %H:%M:%S')
+master['days_to_delivery'] = (master.order_estimated_delivery_date - master.order_purchase_timestamp).dt.days
+
+master['order_purchase_weekday'] = master['order_purchase_timestamp'].dt.day_name()
+
+# Purchase Indicator
+master['Purchased'] = (master['order_status'] != 'canceled').astype(int)
+
+# Product Volume
+master['product_volume'] = master['product_length_cm'] * master['product_height_cm'] * master['product_width_cm']
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mKeyError[0m                                  Traceback (most recent call last)
+Input [0;32mIn [3][0m, in [0;36m<cell line: 2>[0;34m()[0m
+[1;32m      1[0m cust, sell, rev, item, prod, geo, cat, orders, pay [38;5;241m=[39m [pd[38;5;241m.[39mread_csv([38;5;124mf[39m[38;5;124m"[39m[38;5;132;01m{[39;00mpath[38;5;132;01m}[39;00m[38;5;124m/[39m[38;5;132;01m{[39;00mfile[38;5;132;01m}[39;00m[38;5;124m"[39m) [38;5;28;01mfor[39;00m file [38;5;129;01min[39;00m os[38;5;241m.[39mlistdir(path)]
+[0;32m----> 2[0m master [38;5;241m=[39m [43morders[49m[38;5;241;43m.[39;49m[43mmerge[49m[43m([49m[43mcust[49m[43m,[49m[43m [49m[43mon[49m[38;5;241;43m=[39;49m[38;5;124;43m"[39;49m[38;5;124;43mcustomer_id[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[43mhow[49m[38;5;241;43m=[39;49m[38;5;124;43m'[39;49m[38;5;124;43mleft[39;49m[38;5;124;43m'[39;49m[43m)[49m\
+[1;32m      3[0m                [38;5;241m.[39mmerge(item, on[38;5;241m=[39m[38;5;124m"[39m[38;5;124morder_id[39m[38;5;124m"[39m, how[38;5;241m=[39m[38;5;124m'[39m[38;5;124mleft[39m[38;5;124m'[39m)\
+[1;32m      4[0m                [38;5;241m.[39mmerge(prod, on[38;5;241m=[39m[38;5;124m"[39m[38;5;124mproduct_id[39m[38;5;124m"[39m, how[38;5;241m=[39m[38;5;124m'[39m[38;5;124mleft[39m[38;5;124m'[39m)\
+[1;32m      5[0m                [38;5;241m.[39mmerge(cat, on[38;5;241m=[39m[38;5;124m"[39m[38;5;124mproduct_category_name[39m[38;5;124m"[39m, how[38;5;241m=[39m[38;5;124m'[39m[38;5;124mleft[39m[38;5;124m'[39m)\
+[1;32m      6[0m                [38;5;241m.[39mmerge(sell, on[38;5;241m=[39m[38;5;124m"[39m[38;5;124mseller_id[39m[38;5;124m"[39m, how[38;5;241m=[39m[38;5;124m'[39m[38;5;124mleft[39m[38;5;124m'[39m)
+[1;32m      8[0m [38;5;66;03m#  .merge(rev, on="order_id", how='left')[39;00m
+[1;32m      9[0m [38;5;66;03m#  .merge(pay, on="order_id", how='left')\[39;00m
+[1;32m     10[0m 
+[1;32m     11[0m [38;5;66;03m# Drop entries where price is null[39;00m
+[1;32m     12[0m master[38;5;241m.[39mdropna(subset[38;5;241m=[39m[[38;5;124m'[39m[38;5;124mprice[39m[38;5;124m'[39m], inplace[38;5;241m=[39m[38;5;28;01mTrue[39;00m)
+
+File [0;32m/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/pandas/core/frame.py:9345[0m, in [0;36mDataFrame.merge[0;34m(self, right, how, on, left_on, right_on, left_index, right_index, sort, suffixes, copy, indicator, validate)[0m
+[1;32m   9326[0m [38;5;129m@Substitution[39m([38;5;124m"[39m[38;5;124m"[39m)
+[1;32m   9327[0m [38;5;129m@Appender[39m(_merge_doc, indents[38;5;241m=[39m[38;5;241m2[39m)
+[1;32m   9328[0m [38;5;28;01mdef[39;00m [38;5;21mmerge[39m(
+[0;32m   (...)[0m
+[1;32m   9341[0m     validate: [38;5;28mstr[39m [38;5;241m|[39m [38;5;28;01mNone[39;00m [38;5;241m=[39m [38;5;28;01mNone[39;00m,
+[1;32m   9342[0m ) [38;5;241m-[39m[38;5;241m>[39m DataFrame:
+[1;32m   9343[0m     [38;5;28;01mfrom[39;00m [38;5;21;01mpandas[39;00m[38;5;21;01m.[39;00m[38;5;21;01mcore[39;00m[38;5;21;01m.[39;00m[38;5;21;01mreshape[39;00m[38;5;21;01m.[39;00m[38;5;21;01mmerge[39;00m [38;5;28;01mimport[39;00m merge
+[0;32m-> 9345[0m     [38;5;28;01mreturn[39;00m [43mmerge[49m[43m([49m
+[1;32m   9346[0m [43m        [49m[38;5;28;43mself[39;49m[43m,[49m
+[1;32m   9347[0m [43m        [49m[43mright[49m[43m,[49m
+[1;32m   9348[0m [43m        [49m[43mhow[49m[38;5;241;43m=[39;49m[43mhow[49m[43m,[49m
+[1;32m   9349[0m [43m        [49m[43mon[49m[38;5;241;43m=[39;49m[43mon[49m[43m,[49m
+[1;32m   9350[0m [43m        [49m[43mleft_on[49m[38;5;241;43m=[39;49m[43mleft_on[49m[43m,[49m
+[1;32m   9351[0m [43m        [49m[43mright_on[49m[38;5;241;43m=[39;49m[43mright_on[49m[43m,[49m
+[1;32m   9352[0m [43m        [49m[43mleft_index[49m[38;5;241;43m=[39;49m[43mleft_index[49m[43m,[49m
+[1;32m   9353[0m [43m        [49m[43mright_index[49m[38;5;241;43m=[39;49m[43mright_index[49m[43m,[49m
+[1;32m   9354[0m [43m        [49m[43msort[49m[38;5;241;43m=[39;49m[43msort[49m[43m,[49m
+[1;32m   9355[0m [43m        [49m[43msuffixes[49m[38;5;241;43m=[39;49m[43msuffixes[49m[43m,[49m
+[1;32m   9356[0m [43m        [49m[43mcopy[49m[38;5;241;43m=[39;49m[43mcopy[49m[43m,[49m
+[1;32m   9357[0m [43m        [49m[43mindicator[49m[38;5;241;43m=[39;49m[43mindicator[49m[43m,[49m
+[1;32m   9358[0m [43m        [49m[43mvalidate[49m[38;5;241;43m=[39;49m[43mvalidate[49m[43m,[49m
+[1;32m   9359[0m [43m    [49m[43m)[49m
+
+File [0;32m/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/pandas/core/reshape/merge.py:107[0m, in [0;36mmerge[0;34m(left, right, how, on, left_on, right_on, left_index, right_index, sort, suffixes, copy, indicator, validate)[0m
+[1;32m     90[0m [38;5;129m@Substitution[39m([38;5;124m"[39m[38;5;130;01m\n[39;00m[38;5;124mleft : DataFrame or named Series[39m[38;5;124m"[39m)
+[1;32m     91[0m [38;5;129m@Appender[39m(_merge_doc, indents[38;5;241m=[39m[38;5;241m0[39m)
+[1;32m     92[0m [38;5;28;01mdef[39;00m [38;5;21mmerge[39m(
+[0;32m   (...)[0m
+[1;32m    105[0m     validate: [38;5;28mstr[39m [38;5;241m|[39m [38;5;28;01mNone[39;00m [38;5;241m=[39m [38;5;28;01mNone[39;00m,
+[1;32m    106[0m ) [38;5;241m-[39m[38;5;241m>[39m DataFrame:
+[0;32m--> 107[0m     op [38;5;241m=[39m [43m_MergeOperation[49m[43m([49m
+[1;32m    108[0m [43m        [49m[43mleft[49m[43m,[49m
+[1;32m    109[0m [43m        [49m[43mright[49m[43m,[49m
+[1;32m    110[0m [43m        [49m[43mhow[49m[38;5;241;43m=[39;49m[43mhow[49m[43m,[49m
+[1;32m    111[0m [43m        [49m[43mon[49m[38;5;241;43m=[39;49m[43mon[49m[43m,[49m
+[1;32m    112[0m [43m        [49m[43mleft_on[49m[38;5;241;43m=[39;49m[43mleft_on[49m[43m,[49m
+[1;32m    113[0m [43m        [49m[43mright_on[49m[38;5;241;43m=[39;49m[43mright_on[49m[43m,[49m
+[1;32m    114[0m [43m        [49m[43mleft_index[49m[38;5;241;43m=[39;49m[43mleft_index[49m[43m,[49m
+[1;32m    115[0m [43m        [49m[43mright_index[49m[38;5;241;43m=[39;49m[43mright_index[49m[43m,[49m
+[1;32m    116[0m [43m        [49m[43msort[49m[38;5;241;43m=[39;49m[43msort[49m[43m,[49m
+[1;32m    117[0m [43m        [49m[43msuffixes[49m[38;5;241;43m=[39;49m[43msuffixes[49m[43m,[49m
+[1;32m    118[0m [43m        [49m[43mcopy[49m[38;5;241;43m=[39;49m[43mcopy[49m[43m,[49m
+[1;32m    119[0m [43m        [49m[43mindicator[49m[38;5;241;43m=[39;49m[43mindicator[49m[43m,[49m
+[1;32m    120[0m [43m        [49m[43mvalidate[49m[38;5;241;43m=[39;49m[43mvalidate[49m[43m,[49m
+[1;32m    121[0m [43m    [49m[43m)[49m
+[1;32m    122[0m     [38;5;28;01mreturn[39;00m op[38;5;241m.[39mget_result()
+
+File [0;32m/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/pandas/core/reshape/merge.py:700[0m, in [0;36m_MergeOperation.__init__[0;34m(self, left, right, how, on, left_on, right_on, axis, left_index, right_index, sort, suffixes, copy, indicator, validate)[0m
+[1;32m    693[0m [38;5;28mself[39m[38;5;241m.[39m_cross [38;5;241m=[39m cross_col
+[1;32m    695[0m [38;5;66;03m# note this function has side effects[39;00m
+[1;32m    696[0m (
+[1;32m    697[0m     [38;5;28mself[39m[38;5;241m.[39mleft_join_keys,
+[1;32m    698[0m     [38;5;28mself[39m[38;5;241m.[39mright_join_keys,
+[1;32m    699[0m     [38;5;28mself[39m[38;5;241m.[39mjoin_names,
+[0;32m--> 700[0m ) [38;5;241m=[39m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_get_merge_keys[49m[43m([49m[43m)[49m
+[1;32m    702[0m [38;5;66;03m# validate the merge keys dtypes. We may need to coerce[39;00m
+[1;32m    703[0m [38;5;66;03m# to avoid incompatible dtypes[39;00m
+[1;32m    704[0m [38;5;28mself[39m[38;5;241m.[39m_maybe_coerce_merge_keys()
+
+File [0;32m/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/pandas/core/reshape/merge.py:1097[0m, in [0;36m_MergeOperation._get_merge_keys[0;34m(self)[0m
+[1;32m   1095[0m [38;5;28;01mif[39;00m [38;5;129;01mnot[39;00m is_rkey(rk):
+[1;32m   1096[0m     [38;5;28;01mif[39;00m rk [38;5;129;01mis[39;00m [38;5;129;01mnot[39;00m [38;5;28;01mNone[39;00m:
+[0;32m-> 1097[0m         right_keys[38;5;241m.[39mappend([43mright[49m[38;5;241;43m.[39;49m[43m_get_label_or_level_values[49m[43m([49m[43mrk[49m[43m)[49m)
+[1;32m   1098[0m     [38;5;28;01melse[39;00m:
+[1;32m   1099[0m         [38;5;66;03m# work-around for merge_asof(right_index=True)[39;00m
+[1;32m   1100[0m         right_keys[38;5;241m.[39mappend(right[38;5;241m.[39mindex)
+
+File [0;32m/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/pandas/core/generic.py:1840[0m, in [0;36mNDFrame._get_label_or_level_values[0;34m(self, key, axis)[0m
+[1;32m   1838[0m     values [38;5;241m=[39m [38;5;28mself[39m[38;5;241m.[39maxes[axis][38;5;241m.[39mget_level_values(key)[38;5;241m.[39m_values
+[1;32m   1839[0m [38;5;28;01melse[39;00m:
+[0;32m-> 1840[0m     [38;5;28;01mraise[39;00m [38;5;167;01mKeyError[39;00m(key)
+[1;32m   1842[0m [38;5;66;03m# Check for duplicates[39;00m
+[1;32m   1843[0m [38;5;28;01mif[39;00m values[38;5;241m.[39mndim [38;5;241m>[39m [38;5;241m1[39m:
+
+[0;31mKeyError[0m: 'customer_id'
+KeyError: 'customer_id'
+

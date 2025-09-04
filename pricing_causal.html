@@ -1,0 +1,2297 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Heckman Correction, Instrumental Variable, and DoubleML for Demand Modelling with Censored Purchase Data &#8212; The Null Space</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'pricing_causal';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Reinforcement Learning for Optimal Alpha Spending Function in Sequential Hypothesis Testing" href="sequential_test.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.jpeg" class="logo__image only-light" alt="The Null Space - Home"/>
+    <script>document.write(`<img src="_static/logo.jpeg" class="logo__image only-dark" alt="The Null Space - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    The Null Space
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="sequential_test.html"><strong>Reinforcement Learning for Optimal Alpha Spending Function in Sequential Hypothesis Testing</strong></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>Heckman Correction, Instrumental Variable, and DoubleML for Demand Modelling with Censored Purchase Data</strong></a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/jacquelinedoan/thenullspace" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/jacquelinedoan/thenullspace/issues/new?title=Issue%20on%20page%20%2Fpricing_causal.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/pricing_causal.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Heckman Correction, Instrumental Variable, and DoubleML for Demand Modelling with Censored Purchase Data</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data Preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instrumental-variable">Instrumental Variable</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#heckman-correction">Heckman Correction</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="heckman-correction-instrumental-variable-and-doubleml-for-demand-modelling-with-censored-purchase-data">
+<h1><strong>Heckman Correction, Instrumental Variable, and DoubleML for Demand Modelling with Censored Purchase Data</strong><a class="headerlink" href="#heckman-correction-instrumental-variable-and-doubleml-for-demand-modelling-with-censored-purchase-data" title="Link to this heading">#</a></h1>
+<p>For a given customer <span class="math notranslate nohighlight">\(i\)</span> and product <span class="math notranslate nohighlight">\(j\)</span> (and context <span class="math notranslate nohighlight">\(x\)</span>), we want price <span class="math notranslate nohighlight">\(p^*\)</span> such that</p>
+<div class="math notranslate nohighlight">
+\[
+p^* = \text{argmax}_p \text{ profit} (p|x) = (p-c)\times E(D(p|x))
+\]</div>
+<p>where</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(c\)</span>: unit cost</p></li>
+<li><p><span class="math notranslate nohighlight">\(D(p|x)\)</span>: expected demand at price <span class="math notranslate nohighlight">\(p\)</span> given context <span class="math notranslate nohighlight">\(x\)</span></p></li>
+</ul>
+<p>Expected demand is defined as the quantity sold, which is a product-level concept. Thus the master table will be snapshots of product at a certain price, with the quantity sold.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>doubleml
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: doubleml in /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages (0.10.1)
+Requirement already satisfied: joblib in /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages (from doubleml) (1.4.2)
+Requirement already satisfied: numpy in /Users/jacquelinedoan/Library/Python/3.10/lib/python/site-packages (from doubleml) (1.26.4)
+Requirement already satisfied: pandas in /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages (from doubleml) (1.4.2)
+Requirement already satisfied: scipy in /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages (from doubleml) (1.13.1)
+Requirement already satisfied: scikit-learn&gt;=1.4.0 in /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages (from doubleml) (1.7.1)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: statsmodels in /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages (from doubleml) (0.14.4)
+Requirement already satisfied: matplotlib in /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages (from doubleml) (3.10.1)
+Requirement already satisfied: seaborn&gt;=0.13 in /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages (from doubleml) (0.13.2)
+Requirement already satisfied: plotly in /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages (from doubleml) (6.3.0)
+Requirement already satisfied: threadpoolctl&gt;=3.1.0 in /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages (from scikit-learn&gt;=1.4.0-&gt;doubleml) (3.1.0)
+Requirement already satisfied: contourpy&gt;=1.0.1 in /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages (from matplotlib-&gt;doubleml) (1.3.2)
+Requirement already satisfied: cycler&gt;=0.10 in /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages (from matplotlib-&gt;doubleml) (0.11.0)
+Requirement already satisfied: fonttools&gt;=4.22.0 in /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages (from matplotlib-&gt;doubleml) (4.33.3)
+Requirement already satisfied: kiwisolver&gt;=1.3.1 in /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages (from matplotlib-&gt;doubleml) (1.4.2)
+Requirement already satisfied: packaging&gt;=20.0 in /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages (from matplotlib-&gt;doubleml) (25.0)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: pillow&gt;=8 in /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages (from matplotlib-&gt;doubleml) (10.3.0)
+Requirement already satisfied: pyparsing&gt;=2.3.1 in /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages (from matplotlib-&gt;doubleml) (3.0.9)
+Requirement already satisfied: python-dateutil&gt;=2.7 in /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages (from matplotlib-&gt;doubleml) (2.8.2)
+Requirement already satisfied: pytz&gt;=2020.1 in /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages (from pandas-&gt;doubleml) (2022.1)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: six&gt;=1.5 in /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages (from python-dateutil&gt;=2.7-&gt;matplotlib-&gt;doubleml) (1.16.0)
+Requirement already satisfied: narwhals&gt;=1.15.1 in /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages (from plotly-&gt;doubleml) (2.3.0)
+Requirement already satisfied: patsy&gt;=0.5.6 in /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages (from statsmodels-&gt;doubleml) (1.0.1)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Yellow">WARNING: Error parsing dependencies of bleach: Expected matching RIGHT_PARENTHESIS for LEFT_PARENTHESIS, after version specifier</span>
+<span class=" -Color -Color-Yellow">    tinycss2 (&gt;=1.1.0&lt;1.2) ; extra == &#39;css&#39;</span>
+<span class=" -Color -Color-Yellow">             ~~~~~~~~^</span>
+
+</pre></div>
+</div>
+</div>
+</div>
+<section id="data-preparation">
+<h2>Data Preparation<a class="headerlink" href="#data-preparation" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">kagglehub</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="c1"># Kaggle Data</span>
+<span class="n">path</span> <span class="o">=</span> <span class="n">kagglehub</span><span class="o">.</span><span class="n">dataset_download</span><span class="p">(</span><span class="s2">&quot;olistbr/brazilian-ecommerce&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning: Looks like you&#39;re using an outdated `kagglehub` version (installed: 0.3.5), please consider upgrading to the latest version (0.3.13).
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this use case, I use a public dataset sourced from Kaggle. Our data contains only purchase records, thus we have no records about prices when there are no sales. We will need to aggregate the table so that we have a column for “quantity” on the customer and product level. We will also have to define aggregation schemes for the rest of the columns.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cust</span><span class="p">,</span> <span class="n">sell</span><span class="p">,</span> <span class="n">rev</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">prod</span><span class="p">,</span> <span class="n">geo</span><span class="p">,</span> <span class="n">cat</span><span class="p">,</span> <span class="n">orders</span><span class="p">,</span> <span class="n">pay</span> <span class="o">=</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">)]</span>
+<span class="n">master</span> <span class="o">=</span> <span class="n">orders</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">cust</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;customer_id&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>\
+               <span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;order_id&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>\
+               <span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">prod</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;product_id&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>\
+               <span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;product_category_name&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>\
+               <span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">sell</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;seller_id&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+
+<span class="c1">#  .merge(rev, on=&quot;order_id&quot;, how=&#39;left&#39;)</span>
+<span class="c1">#  .merge(pay, on=&quot;order_id&quot;, how=&#39;left&#39;)\</span>
+
+<span class="c1"># Drop entries where price is null</span>
+<span class="n">master</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">master</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Handle Datetime data</span>
+<span class="n">master</span><span class="p">[</span><span class="s1">&#39;order_purchase_timestamp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">master</span><span class="o">.</span><span class="n">order_purchase_timestamp</span><span class="p">,</span>
+                                             <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span>
+<span class="n">master</span><span class="p">[</span><span class="s1">&#39;order_estimated_delivery_date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">master</span><span class="o">.</span><span class="n">order_estimated_delivery_date</span><span class="p">,</span>
+                                              <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span>
+<span class="n">master</span><span class="p">[</span><span class="s1">&#39;days_to_delivery&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">master</span><span class="o">.</span><span class="n">order_estimated_delivery_date</span> <span class="o">-</span> <span class="n">master</span><span class="o">.</span><span class="n">order_purchase_timestamp</span><span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">days</span>
+
+<span class="n">master</span><span class="p">[</span><span class="s1">&#39;order_purchase_weekday&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">master</span><span class="p">[</span><span class="s1">&#39;order_purchase_timestamp&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">day_name</span><span class="p">()</span>
+
+<span class="c1"># Purchase Indicator</span>
+<span class="n">master</span><span class="p">[</span><span class="s1">&#39;Purchased&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">master</span><span class="p">[</span><span class="s1">&#39;order_status&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;canceled&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="c1"># Product Volume</span>
+<span class="n">master</span><span class="p">[</span><span class="s1">&#39;product_volume&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">master</span><span class="p">[</span><span class="s1">&#39;product_length_cm&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">master</span><span class="p">[</span><span class="s1">&#39;product_height_cm&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">master</span><span class="p">[</span><span class="s1">&#39;product_width_cm&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyError</span><span class="g g-Whitespace">                                  </span>Traceback (most recent call last)
+<span class="nn">Input In [3],</span> in <span class="ni">&lt;cell line: 2&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">cust</span><span class="p">,</span> <span class="n">sell</span><span class="p">,</span> <span class="n">rev</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">prod</span><span class="p">,</span> <span class="n">geo</span><span class="p">,</span> <span class="n">cat</span><span class="p">,</span> <span class="n">orders</span><span class="p">,</span> <span class="n">pay</span> <span class="o">=</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">)]</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">master</span> <span class="o">=</span> <span class="n">orders</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">cust</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;customer_id&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>\
+<span class="g g-Whitespace">      </span><span class="mi">3</span>                <span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;order_id&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>\
+<span class="g g-Whitespace">      </span><span class="mi">4</span>                <span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">prod</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;product_id&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>\
+<span class="g g-Whitespace">      </span><span class="mi">5</span>                <span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;product_category_name&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>\
+<span class="g g-Whitespace">      </span><span class="mi">6</span>                <span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">sell</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;seller_id&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="c1">#  .merge(rev, on=&quot;order_id&quot;, how=&#39;left&#39;)</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="c1">#  .merge(pay, on=&quot;order_id&quot;, how=&#39;left&#39;)\</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> 
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="c1"># Drop entries where price is null</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">master</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/pandas/core/frame.py:9345,</span> in <span class="ni">DataFrame.merge</span><span class="nt">(self, right, how, on, left_on, right_on, left_index, right_index, sort, suffixes, copy, indicator, validate)</span>
+<span class="g g-Whitespace">   </span><span class="mi">9326</span> <span class="nd">@Substitution</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">9327</span> <span class="nd">@Appender</span><span class="p">(</span><span class="n">_merge_doc</span><span class="p">,</span> <span class="n">indents</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">9328</span> <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">9341</span>     <span class="n">validate</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">9342</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">9343</span>     <span class="kn">from</span> <span class="nn">pandas.core.reshape.merge</span> <span class="kn">import</span> <span class="n">merge</span>
+<span class="ne">-&gt; </span><span class="mi">9345</span>     <span class="k">return</span> <span class="n">merge</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">9346</span>         <span class="bp">self</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">9347</span>         <span class="n">right</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">9348</span>         <span class="n">how</span><span class="o">=</span><span class="n">how</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">9349</span>         <span class="n">on</span><span class="o">=</span><span class="n">on</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">9350</span>         <span class="n">left_on</span><span class="o">=</span><span class="n">left_on</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">9351</span>         <span class="n">right_on</span><span class="o">=</span><span class="n">right_on</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">9352</span>         <span class="n">left_index</span><span class="o">=</span><span class="n">left_index</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">9353</span>         <span class="n">right_index</span><span class="o">=</span><span class="n">right_index</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">9354</span>         <span class="n">sort</span><span class="o">=</span><span class="n">sort</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">9355</span>         <span class="n">suffixes</span><span class="o">=</span><span class="n">suffixes</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">9356</span>         <span class="n">copy</span><span class="o">=</span><span class="n">copy</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">9357</span>         <span class="n">indicator</span><span class="o">=</span><span class="n">indicator</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">9358</span>         <span class="n">validate</span><span class="o">=</span><span class="n">validate</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">9359</span>     <span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/pandas/core/reshape/merge.py:107,</span> in <span class="ni">merge</span><span class="nt">(left, right, how, on, left_on, right_on, left_index, right_index, sort, suffixes, copy, indicator, validate)</span>
+<span class="g g-Whitespace">     </span><span class="mi">90</span> <span class="nd">@Substitution</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">left : DataFrame or named Series&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">91</span> <span class="nd">@Appender</span><span class="p">(</span><span class="n">_merge_doc</span><span class="p">,</span> <span class="n">indents</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">92</span> <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">105</span>     <span class="n">validate</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">106</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">107</span>     <span class="n">op</span> <span class="o">=</span> <span class="n">_MergeOperation</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">108</span>         <span class="n">left</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">109</span>         <span class="n">right</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">110</span>         <span class="n">how</span><span class="o">=</span><span class="n">how</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">111</span>         <span class="n">on</span><span class="o">=</span><span class="n">on</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">112</span>         <span class="n">left_on</span><span class="o">=</span><span class="n">left_on</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">113</span>         <span class="n">right_on</span><span class="o">=</span><span class="n">right_on</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">114</span>         <span class="n">left_index</span><span class="o">=</span><span class="n">left_index</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">115</span>         <span class="n">right_index</span><span class="o">=</span><span class="n">right_index</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">116</span>         <span class="n">sort</span><span class="o">=</span><span class="n">sort</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">117</span>         <span class="n">suffixes</span><span class="o">=</span><span class="n">suffixes</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">118</span>         <span class="n">copy</span><span class="o">=</span><span class="n">copy</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">119</span>         <span class="n">indicator</span><span class="o">=</span><span class="n">indicator</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">120</span>         <span class="n">validate</span><span class="o">=</span><span class="n">validate</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">121</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">122</span>     <span class="k">return</span> <span class="n">op</span><span class="o">.</span><span class="n">get_result</span><span class="p">()</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/pandas/core/reshape/merge.py:700,</span> in <span class="ni">_MergeOperation.__init__</span><span class="nt">(self, left, right, how, on, left_on, right_on, axis, left_index, right_index, sort, suffixes, copy, indicator, validate)</span>
+<span class="g g-Whitespace">    </span><span class="mi">693</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cross</span> <span class="o">=</span> <span class="n">cross_col</span>
+<span class="g g-Whitespace">    </span><span class="mi">695</span> <span class="c1"># note this function has side effects</span>
+<span class="g g-Whitespace">    </span><span class="mi">696</span> <span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">697</span>     <span class="bp">self</span><span class="o">.</span><span class="n">left_join_keys</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">698</span>     <span class="bp">self</span><span class="o">.</span><span class="n">right_join_keys</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">699</span>     <span class="bp">self</span><span class="o">.</span><span class="n">join_names</span><span class="p">,</span>
+<span class="ne">--&gt; </span><span class="mi">700</span> <span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_merge_keys</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">702</span> <span class="c1"># validate the merge keys dtypes. We may need to coerce</span>
+<span class="g g-Whitespace">    </span><span class="mi">703</span> <span class="c1"># to avoid incompatible dtypes</span>
+<span class="g g-Whitespace">    </span><span class="mi">704</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maybe_coerce_merge_keys</span><span class="p">()</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/pandas/core/reshape/merge.py:1097,</span> in <span class="ni">_MergeOperation._get_merge_keys</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1095</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">is_rkey</span><span class="p">(</span><span class="n">rk</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1096</span>     <span class="k">if</span> <span class="n">rk</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1097</span>         <span class="n">right_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">right</span><span class="o">.</span><span class="n">_get_label_or_level_values</span><span class="p">(</span><span class="n">rk</span><span class="p">))</span>
+<span class="g g-Whitespace">   </span><span class="mi">1098</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1099</span>         <span class="c1"># work-around for merge_asof(right_index=True)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1100</span>         <span class="n">right_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">right</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/pandas/core/generic.py:1840,</span> in <span class="ni">NDFrame._get_label_or_level_values</span><span class="nt">(self, key, axis)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1838</span>     <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">_values</span>
+<span class="g g-Whitespace">   </span><span class="mi">1839</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1840</span>     <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1842</span> <span class="c1"># Check for duplicates</span>
+<span class="g g-Whitespace">   </span><span class="mi">1843</span> <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+
+<span class="ne">KeyError</span>: &#39;customer_id&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">master</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;order_id&#39;, &#39;customer_id&#39;, &#39;order_status&#39;, &#39;order_approved_at&#39;,
+       &#39;order_delivered_carrier_date&#39;, &#39;order_delivered_customer_date&#39;,
+       &#39;customer_unique_id&#39;, &#39;customer_city&#39;, &#39;customer_state&#39;, &#39;product_id&#39;,
+       &#39;seller_id&#39;, &#39;shipping_limit_date&#39;, &#39;product_category_name&#39;,
+       &#39;product_category_name_english&#39;, &#39;seller_city&#39;, &#39;seller_state&#39;,
+       &#39;order_purchase_weekday&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">drop_cols</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="c1"># customer</span>
+            <span class="s1">&#39;customer_unique_id&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;customer_zip_code_prefix&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;customer_city&#39;</span><span class="p">,</span>
+            <span class="c1"># order</span>
+            <span class="s1">&#39;order_status&#39;</span><span class="p">,</span>
+            <span class="c1"># order datetime</span>
+            <span class="s1">&#39;order_approved_at&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;order_delivered_carrier_date&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;order_delivered_customer_date&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;order_estimated_delivery_date&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;order_purchase_timestamp&#39;</span><span class="p">,</span>
+            <span class="c1"># seller: 1 to 1 with item?</span>
+            <span class="s1">&#39;seller_id&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;shipping_limit_date&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;seller_city&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;seller_zip_code_prefix&#39;</span><span class="p">,</span>
+            <span class="c1"># product</span>
+            <span class="s1">&#39;product_name_lenght&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;product_description_lenght&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;product_category_name&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;product_length_cm&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;product_height_cm&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;product_width_cm&#39;</span><span class="p">,</span>
+             <span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">master</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">drop_cols</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+<span class="n">data</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;order_id&#39;, &#39;customer_id&#39;, &#39;customer_state&#39;, &#39;product_id&#39;,
+       &#39;product_category_name_english&#39;, &#39;seller_state&#39;,
+       &#39;order_purchase_weekday&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;customer_id&#39;</span><span class="p">,</span> <span class="s1">&#39;product_id&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="c1"># Count quantity ordered</span>
+        <span class="s1">&#39;order_id&#39;</span><span class="p">:</span> <span class="s1">&#39;count&#39;</span><span class="p">,</span>
+        <span class="c1"># Numerical</span>
+        <span class="s1">&#39;freight_value&#39;</span><span class="p">:</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span> <span class="c1">#should it be min or max?</span>
+        <span class="s1">&#39;product_weight_g&#39;</span><span class="p">:</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;product_volume&#39;</span><span class="p">:</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;days_to_delivery&#39;</span><span class="p">:</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span>
+        <span class="c1"># Categorical</span>
+        <span class="s1">&#39;customer_state&#39;</span><span class="p">:</span> <span class="s1">&#39;first&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;product_photos_qty&#39;</span><span class="p">:</span> <span class="s1">&#39;first&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;product_category_name_english&#39;</span><span class="p">:</span> <span class="s1">&#39;first&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;price&#39;</span><span class="p">,</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;order_id&#39;</span><span class="p">:</span> <span class="s1">&#39;quantity&#39;</span><span class="p">})</span>
+
+<span class="n">weekday</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span>
+    <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;customer_id&#39;</span><span class="p">,</span> <span class="s1">&#39;product_id&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">],</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;order_purchase_weekday&#39;</span><span class="p">],</span>
+    <span class="n">values</span><span class="o">=</span><span class="s1">&#39;order_id&#39;</span><span class="p">,</span>
+    <span class="n">aggfunc</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span>
+    <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span>
+<span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+<span class="n">seller_state</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span>
+    <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;customer_id&#39;</span><span class="p">,</span> <span class="s1">&#39;product_id&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">],</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;seller_state&#39;</span><span class="p">],</span>
+    <span class="n">values</span><span class="o">=</span><span class="s1">&#39;order_id&#39;</span><span class="p">,</span>
+    <span class="n">aggfunc</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span>
+    <span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span>
+<span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">weekday</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;customer_id&#39;</span><span class="p">,</span> <span class="s1">&#39;product_id&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">]),</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;customer_id&#39;</span><span class="p">,</span> <span class="s1">&#39;product_id&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">])</span>\
+<span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">seller_state</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;customer_id&#39;</span><span class="p">,</span> <span class="s1">&#39;product_id&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">]),</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;customer_id&#39;</span><span class="p">,</span> <span class="s1">&#39;product_id&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;quantity&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;quantity&#39;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;scatter&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;price&#39;, ylabel=&#39;quantity&#39;&gt;
+</pre></div>
+</div>
+<img alt="_images/6385c0656187ddc55f71e21f8b94e34e437f66d24b4c87ce1d547514b1724258.png" src="_images/6385c0656187ddc55f71e21f8b94e34e437f66d24b4c87ce1d547514b1724258.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Null Treatment</span>
+<span class="c1"># Categorical</span>
+<span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">&#39;Unknown&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Numerical</span>
+<span class="n">df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Problem Set-Up</strong>:</p>
+<ol class="arabic simple">
+<li><p>Endogenous Variable: price is partially determined by demand. <strong>Need Instrumental Variable.</strong></p></li>
+<li><p>Censored Data: decision to not purchase is not observable. <strong>Need Selection Correction.</strong></p></li>
+</ol>
+<p>Dynamic pricing requires a demand model/ demand curve. A demand curve is the relationship between the quantity demanded (or propensity to purchase) and the price among other features.</p>
+</section>
+<section id="instrumental-variable">
+<h2>Instrumental Variable<a class="headerlink" href="#instrumental-variable" title="Link to this heading">#</a></h2>
+<p>We want to estimate the response of market demand to exogenous changes in market prices. Quantity demanded depends on prices, but prices are not exogenously given since they are determined in part by market demand. The instrument for price is a variable that is correlated with price but does not directly effect quantity demanded, ideally a supply-inducing variable.</p>
+<p><strong>IV (<span class="math notranslate nohighlight">\(Z\)</span>) Requirements</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Relevance</strong>: <span class="math notranslate nohighlight">\(\text{Cov}(Z,\text{price}) \neq 0\)</span></p></li>
+<li><p><strong>Exclusion/ Validity</strong>: <span class="math notranslate nohighlight">\(Z \perp ϵ\)</span> where <span class="math notranslate nohighlight">\(ϵ\)</span> unobserved demand shock.</p></li>
+</ol>
+<p>Some candidates:</p>
+<ul class="simple">
+<li><p>Supply-side shock: supplier cost change, wholesale price, shipping cost (shift retail price but doesn’t directly affect demand)</p></li>
+<li><p>Day-of-week, temporary promotions (only if random scheduling)</p></li>
+<li><p>Regional difference: warehouse stock levels, local supply constraints (only if no difference in preference across regions)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Possible Instrumental Variables</span>
+
+<span class="c1"># day of the week</span>
+<span class="n">order_purchase_weekday</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;Friday&#39;</span><span class="p">,</span> <span class="s1">&#39;Monday&#39;</span><span class="p">,</span> <span class="s1">&#39;Saturday&#39;</span><span class="p">,</span> <span class="s1">&#39;Sunday&#39;</span><span class="p">,</span> <span class="s1">&#39;Thursday&#39;</span><span class="p">,</span> <span class="s1">&#39;Tuesday&#39;</span><span class="p">,</span> <span class="s1">&#39;Wednesday&#39;</span><span class="p">]</span>
+<span class="c1"># proxy for regional supply shock</span>
+<span class="n">seller_state</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;AC&#39;</span><span class="p">,</span> <span class="s1">&#39;AM&#39;</span><span class="p">,</span> <span class="s1">&#39;BA&#39;</span><span class="p">,</span> <span class="s1">&#39;CE&#39;</span><span class="p">,</span> <span class="s1">&#39;DF&#39;</span><span class="p">,</span> <span class="s1">&#39;ES&#39;</span><span class="p">,</span> <span class="s1">&#39;GO&#39;</span><span class="p">,</span> <span class="s1">&#39;MA&#39;</span><span class="p">,</span> <span class="s1">&#39;MG&#39;</span><span class="p">,</span> <span class="s1">&#39;MS&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;MT&#39;</span><span class="p">,</span> <span class="s1">&#39;PA&#39;</span><span class="p">,</span> <span class="s1">&#39;PB&#39;</span><span class="p">,</span> <span class="s1">&#39;PE&#39;</span><span class="p">,</span> <span class="s1">&#39;PI&#39;</span><span class="p">,</span> <span class="s1">&#39;PR&#39;</span><span class="p">,</span> <span class="s1">&#39;RJ&#39;</span><span class="p">,</span> <span class="s1">&#39;RN&#39;</span><span class="p">,</span> <span class="s1">&#39;RO&#39;</span><span class="p">,</span> <span class="s1">&#39;RS&#39;</span><span class="p">,</span> <span class="s1">&#39;SC&#39;</span><span class="p">,</span> <span class="s1">&#39;SE&#39;</span><span class="p">,</span> <span class="s1">&#39;SP&#39;</span><span class="p">]</span>
+<span class="c1"># instruments</span>
+<span class="n">iv</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;freight_value&#39;</span><span class="p">,</span> <span class="c1"># shipping cost</span>
+     <span class="p">]</span> <span class="o">+</span> <span class="n">order_purchase_weekday</span> <span class="o">+</span> <span class="n">seller_state</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">price</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span>
+
+<span class="n">covariates</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">order_purchase_weekday</span><span class="o">+</span>
+                     <span class="n">seller_state</span><span class="o">+</span>
+                     <span class="n">price</span><span class="o">+</span>
+                     <span class="p">[</span><span class="s1">&#39;customer_id&#39;</span><span class="p">,</span> <span class="s1">&#39;product_id&#39;</span><span class="p">,</span> <span class="s1">&#39;quantity&#39;</span><span class="p">,</span> <span class="s1">&#39;freight_value&#39;</span><span class="p">]</span>
+                     <span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Empirical Check for Relevance</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">covariates</span><span class="p">]</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">iv</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">price</span><span class="p">]</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Empirical Check for Relevance</span>
+<span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+
+<span class="n">XZ</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">X</span><span class="p">,</span> <span class="n">Z</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="c1"># One-hot encode categorical columns in XZ</span>
+<span class="n">XZ_encoded</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">XZ</span><span class="p">,</span>
+                            <span class="n">columns</span><span class="o">=</span> <span class="n">XZ</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+                            <span class="n">dummy_na</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">XZ_encoded</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-87d27b05-5bf6-4906-85ec-9c05d2bcf72a" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>const</th>
+      <th>product_weight_g</th>
+      <th>product_volume</th>
+      <th>days_to_delivery</th>
+      <th>product_photos_qty</th>
+      <th>freight_value</th>
+      <th>Friday</th>
+      <th>Monday</th>
+      <th>Saturday</th>
+      <th>Sunday</th>
+      <th>Thursday</th>
+      <th>Tuesday</th>
+      <th>Wednesday</th>
+      <th>AC</th>
+      <th>AM</th>
+      <th>BA</th>
+      <th>CE</th>
+      <th>DF</th>
+      <th>ES</th>
+      <th>GO</th>
+      <th>MA</th>
+      <th>MG</th>
+      <th>MS</th>
+      <th>MT</th>
+      <th>PA</th>
+      <th>PB</th>
+      <th>PE</th>
+      <th>PI</th>
+      <th>PR</th>
+      <th>RJ</th>
+      <th>RN</th>
+      <th>RO</th>
+      <th>RS</th>
+      <th>SC</th>
+      <th>SE</th>
+      <th>SP</th>
+      <th>customer_state_AC</th>
+      <th>customer_state_AL</th>
+      <th>customer_state_AM</th>
+      <th>customer_state_AP</th>
+      <th>customer_state_BA</th>
+      <th>customer_state_CE</th>
+      <th>customer_state_DF</th>
+      <th>customer_state_ES</th>
+      <th>customer_state_GO</th>
+      <th>customer_state_MA</th>
+      <th>customer_state_MG</th>
+      <th>customer_state_MS</th>
+      <th>customer_state_MT</th>
+      <th>customer_state_PA</th>
+      <th>customer_state_PB</th>
+      <th>customer_state_PE</th>
+      <th>customer_state_PI</th>
+      <th>customer_state_PR</th>
+      <th>customer_state_RJ</th>
+      <th>customer_state_RN</th>
+      <th>customer_state_RO</th>
+      <th>customer_state_RR</th>
+      <th>customer_state_RS</th>
+      <th>customer_state_SC</th>
+      <th>customer_state_SE</th>
+      <th>customer_state_SP</th>
+      <th>customer_state_TO</th>
+      <th>product_category_name_english_0</th>
+      <th>product_category_name_english_agro_industry_and_commerce</th>
+      <th>product_category_name_english_air_conditioning</th>
+      <th>product_category_name_english_art</th>
+      <th>product_category_name_english_arts_and_craftmanship</th>
+      <th>product_category_name_english_audio</th>
+      <th>product_category_name_english_auto</th>
+      <th>product_category_name_english_baby</th>
+      <th>product_category_name_english_bed_bath_table</th>
+      <th>product_category_name_english_books_general_interest</th>
+      <th>product_category_name_english_books_imported</th>
+      <th>product_category_name_english_books_technical</th>
+      <th>product_category_name_english_cds_dvds_musicals</th>
+      <th>product_category_name_english_christmas_supplies</th>
+      <th>product_category_name_english_cine_photo</th>
+      <th>product_category_name_english_computers</th>
+      <th>product_category_name_english_computers_accessories</th>
+      <th>product_category_name_english_consoles_games</th>
+      <th>product_category_name_english_construction_tools_construction</th>
+      <th>product_category_name_english_construction_tools_lights</th>
+      <th>product_category_name_english_construction_tools_safety</th>
+      <th>product_category_name_english_cool_stuff</th>
+      <th>product_category_name_english_costruction_tools_garden</th>
+      <th>product_category_name_english_costruction_tools_tools</th>
+      <th>product_category_name_english_diapers_and_hygiene</th>
+      <th>product_category_name_english_drinks</th>
+      <th>product_category_name_english_dvds_blu_ray</th>
+      <th>product_category_name_english_electronics</th>
+      <th>product_category_name_english_fashio_female_clothing</th>
+      <th>product_category_name_english_fashion_bags_accessories</th>
+      <th>product_category_name_english_fashion_childrens_clothes</th>
+      <th>product_category_name_english_fashion_male_clothing</th>
+      <th>product_category_name_english_fashion_shoes</th>
+      <th>product_category_name_english_fashion_sport</th>
+      <th>product_category_name_english_fashion_underwear_beach</th>
+      <th>product_category_name_english_fixed_telephony</th>
+      <th>product_category_name_english_flowers</th>
+      <th>product_category_name_english_food</th>
+      <th>product_category_name_english_food_drink</th>
+      <th>product_category_name_english_furniture_bedroom</th>
+      <th>product_category_name_english_furniture_decor</th>
+      <th>product_category_name_english_furniture_living_room</th>
+      <th>product_category_name_english_furniture_mattress_and_upholstery</th>
+      <th>product_category_name_english_garden_tools</th>
+      <th>product_category_name_english_health_beauty</th>
+      <th>product_category_name_english_home_appliances</th>
+      <th>product_category_name_english_home_appliances_2</th>
+      <th>product_category_name_english_home_comfort_2</th>
+      <th>product_category_name_english_home_confort</th>
+      <th>product_category_name_english_home_construction</th>
+      <th>product_category_name_english_housewares</th>
+      <th>product_category_name_english_industry_commerce_and_business</th>
+      <th>product_category_name_english_kitchen_dining_laundry_garden_furniture</th>
+      <th>product_category_name_english_la_cuisine</th>
+      <th>product_category_name_english_luggage_accessories</th>
+      <th>product_category_name_english_market_place</th>
+      <th>product_category_name_english_music</th>
+      <th>product_category_name_english_musical_instruments</th>
+      <th>product_category_name_english_office_furniture</th>
+      <th>product_category_name_english_party_supplies</th>
+      <th>product_category_name_english_perfumery</th>
+      <th>product_category_name_english_pet_shop</th>
+      <th>product_category_name_english_security_and_services</th>
+      <th>product_category_name_english_signaling_and_security</th>
+      <th>product_category_name_english_small_appliances</th>
+      <th>product_category_name_english_small_appliances_home_oven_and_coffee</th>
+      <th>product_category_name_english_sports_leisure</th>
+      <th>product_category_name_english_stationery</th>
+      <th>product_category_name_english_tablets_printing_image</th>
+      <th>product_category_name_english_telephony</th>
+      <th>product_category_name_english_toys</th>
+      <th>product_category_name_english_watches_gifts</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>79856</th>
+      <td>1.0</td>
+      <td>30000.0</td>
+      <td>120780.0</td>
+      <td>24</td>
+      <td>2.0</td>
+      <td>194.31</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>97997</th>
+      <td>1.0</td>
+      <td>5660.0</td>
+      <td>45684.0</td>
+      <td>15</td>
+      <td>4.0</td>
+      <td>193.21</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>25522</th>
+      <td>1.0</td>
+      <td>7400.0</td>
+      <td>29375.0</td>
+      <td>34</td>
+      <td>2.0</td>
+      <td>227.66</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>89543</th>
+      <td>1.0</td>
+      <td>22600.0</td>
+      <td>88000.0</td>
+      <td>30</td>
+      <td>2.0</td>
+      <td>151.34</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>14730</th>
+      <td>1.0</td>
+      <td>30000.0</td>
+      <td>122500.0</td>
+      <td>26</td>
+      <td>2.0</td>
+      <td>74.34</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-87d27b05-5bf6-4906-85ec-9c05d2bcf72a')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-87d27b05-5bf6-4906-85ec-9c05d2bcf72a button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-87d27b05-5bf6-4906-85ec-9c05d2bcf72a');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+    <div id="df-e1eca99d-cbca-4a4e-a674-f03aa7210fa7">
+      <button class="colab-df-quickchart" onclick="quickchart('df-e1eca99d-cbca-4a4e-a674-f03aa7210fa7')"
+                title="Suggest charts"
+                style="display:none;">
+
+<svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+     width="24px">
+    <g>
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+    </g>
+</svg>
+      </button>
+
+<style>
+  .colab-df-quickchart {
+      --bg-color: #E8F0FE;
+      --fill-color: #1967D2;
+      --hover-bg-color: #E2EBFA;
+      --hover-fill-color: #174EA6;
+      --disabled-fill-color: #AAA;
+      --disabled-bg-color: #DDD;
+  }
+
+  [theme=dark] .colab-df-quickchart {
+      --bg-color: #3B4455;
+      --fill-color: #D2E3FC;
+      --hover-bg-color: #434B5C;
+      --hover-fill-color: #FFFFFF;
+      --disabled-bg-color: #3B4455;
+      --disabled-fill-color: #666;
+  }
+
+  .colab-df-quickchart {
+    background-color: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    fill: var(--fill-color);
+    height: 32px;
+    padding: 0;
+    width: 32px;
+  }
+
+  .colab-df-quickchart:hover {
+    background-color: var(--hover-bg-color);
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    fill: var(--button-hover-fill-color);
+  }
+
+  .colab-df-quickchart-complete:disabled,
+  .colab-df-quickchart-complete:disabled:hover {
+    background-color: var(--disabled-bg-color);
+    fill: var(--disabled-fill-color);
+    box-shadow: none;
+  }
+
+  .colab-df-spinner {
+    border: 2px solid var(--fill-color);
+    border-color: transparent;
+    border-bottom-color: var(--fill-color);
+    animation:
+      spin 1s steps(1) infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+      border-left-color: var(--fill-color);
+    }
+    20% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    30% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+      border-right-color: var(--fill-color);
+    }
+    40% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    60% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+    }
+    80% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-bottom-color: var(--fill-color);
+    }
+    90% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+    }
+  }
+</style>
+
+      <script>
+        async function quickchart(key) {
+          const quickchartButtonEl =
+            document.querySelector('#' + key + ' button');
+          quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
+          quickchartButtonEl.classList.add('colab-df-spinner');
+          try {
+            const charts = await google.colab.kernel.invokeFunction(
+                'suggestCharts', [key], {});
+          } catch (error) {
+            console.error('Error during call to suggestCharts:', error);
+          }
+          quickchartButtonEl.classList.remove('colab-df-spinner');
+          quickchartButtonEl.classList.add('colab-df-quickchart-complete');
+        }
+        (() => {
+          let quickchartButtonEl =
+            document.querySelector('#df-e1eca99d-cbca-4a4e-a674-f03aa7210fa7 button');
+          quickchartButtonEl.style.display =
+            google.colab.kernel.accessAllowed ? 'block' : 'none';
+        })();
+      </script>
+    </div>
+
+    </div>
+  </div>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># An overview look of the IV. F Statistic is &gt; 10, the instruments chosen are strong</span>
+<span class="n">relevance</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">XZ_encoded</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">relevance</span><span class="o">.</span><span class="n">fvalue</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>326.26046349552684
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># # Conditional Regressions (Sanderson-Windmeijer, 2016)</span>
+<span class="c1"># # We have strong instruments</span>
+<span class="c1"># X = master[covariates]</span>
+<span class="c1"># Z = master[iv]</span>
+<span class="c1"># y = master[price]</span>
+
+<span class="c1"># Z_encoded = pd.get_dummies(Z,</span>
+<span class="c1">#                             columns=Z.select_dtypes(include=[&#39;object&#39;]).columns,</span>
+<span class="c1">#                             dummy_na=False)</span>
+<span class="c1"># X_encoded = pd.get_dummies(X,</span>
+<span class="c1">#                             columns=X.select_dtypes(include=[&#39;object&#39;]).columns,</span>
+<span class="c1">#                             dummy_na=False)</span>
+
+<span class="c1"># for z in Z_encoded.columns:</span>
+<span class="c1">#     print(f&quot;Conditional Regression for {z}:&quot;)</span>
+<span class="c1">#     other_Z = Z_encoded.drop(columns=[z])</span>
+<span class="c1">#     XZ_other = sm.add_constant(pd.concat([X_encoded, other_Z], axis=1))</span>
+<span class="c1">#     # y = master[price]</span>
+<span class="c1">#     y=Z_encoded[z]</span>
+<span class="c1">#     model = sm.OLS(y, XZ_other.astype(float)).fit()</span>
+
+<span class="c1">#     f_stat = model.fvalue</span>
+<span class="c1">#     p_val = model.f_pvalue</span>
+
+<span class="c1">#     print(f&quot;Conditional F-test for {z}: F={f_stat:.2f}, p={p_val:.4f}&quot;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="heckman-correction">
+<h2>Heckman Correction<a class="headerlink" href="#heckman-correction" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Definition</strong> (Selection Equation): The individual sampling probability of each observation</p></li>
+<li><p><strong>Definition</strong> (Outcome Equation): The conditional expectation of the dependent variable</p></li>
+</ul>
+<p><strong>Two Stages of Heckman Correction</strong></p>
+<ol class="arabic simple">
+<li><p>Estimate the probability of purchase. Here, we will use XGBoost to estimate
+$<span class="math notranslate nohighlight">\(
+\hat{p}_i = P(S_i =1|z_i)
+\)</span>$</p></li>
+</ol>
+<p>where <span class="math notranslate nohighlight">\(S_i=1\)</span> means the purchase is observed and <span class="math notranslate nohighlight">\(z_i\)</span> are instruments/ exclusion variables, affecting selection, but not directly purchase outcome.
+2.   Correct for self-selection by incorporating a transformation of these predicted individual probabilities as an explanatory variable. This is done by computing the <strong>inverse Mills ratio</strong> for each observation <span class="math notranslate nohighlight">\(i\)</span>
+$<span class="math notranslate nohighlight">\(
+\lambda_i = \frac{\phi(\Phi^{-1}(\hat{p}_i))}{\hat{p}_i}
+\)</span>$
+and use the ratio as a control in outcome regression.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">xgboost</span> <span class="kn">import</span> <span class="n">XGBClassifier</span><span class="p">,</span> <span class="n">XGBRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># # Selection Model</span>
+<span class="c1"># X_selection = master[covariates+iv]</span>
+<span class="c1"># y_selection = master[&#39;S&#39;]</span>
+
+<span class="c1"># # XGBoost classifier for selection</span>
+<span class="c1"># ml_selector = XGBClassifier(eval_metric=&#39;logloss&#39;,</span>
+<span class="c1">#                             )</span>
+
+<span class="c1"># # Perform one-hot encoding on X_selection</span>
+<span class="c1"># X_selection_encoded = pd.get_dummies(X_selection,</span>
+<span class="c1">#                                      columns=X_selection.select_dtypes(include=&#39;object&#39;).columns,</span>
+<span class="c1">#                                      dummy_na=False)</span>
+
+<span class="c1"># ml_selector.fit(np.array(X_selection_encoded), np.array(y_selection))</span>
+<span class="c1"># # Predict selection probability per observation</span>
+<span class="c1"># p_hat = ml_selector.predict_proba(np.array(X_selection_encoded))[:, 1]</span>
+<span class="c1"># # Compute IMR (inverse Mills ratio) for Heckman-style correction</span>
+<span class="c1"># imr = norm.pdf(norm.ppf(np.clip(p_hat, 1e-6, 1-1e-6))) / np.clip(p_hat, 1e-6, 1-1e-6)</span>
+<span class="c1"># master[&#39;imr&#39;] = imr</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">doubleml</span> <span class="kn">import</span> <span class="n">DoubleMLData</span><span class="p">,</span> <span class="n">DoubleMLPLR</span><span class="p">,</span> <span class="n">DoubleMLPLIV</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">XZ_encoded</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;const&#39;</span><span class="p">),</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;quantity&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">]]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prod_cat</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[[</span><span class="n">col</span><span class="o">.</span><span class="fm">__contains__</span><span class="p">(</span><span class="s1">&#39;product_category_name&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]]</span>
+
+<span class="n">covariates</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;product_category_name_english&#39;</span><span class="p">)</span>
+<span class="n">covariates</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;customer_state&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dml_data</span> <span class="o">=</span> <span class="n">DoubleMLData</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
+                        <span class="c1"># outcome</span>
+                        <span class="n">y_col</span><span class="o">=</span><span class="s1">&#39;quantity&#39;</span><span class="p">,</span>
+                        <span class="c1"># treatment</span>
+                        <span class="n">d_cols</span><span class="o">=</span><span class="s1">&#39;price&#39;</span><span class="p">,</span>
+                        <span class="c1"># covariates</span>
+                        <span class="n">x_cols</span><span class="o">=</span> <span class="n">covariates</span> <span class="o">+</span> <span class="n">prod_cat</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span> <span class="o">+</span> <span class="n">iv</span>
+                        <span class="p">)</span>
+
+<span class="c1"># Double ML</span>
+<span class="n">ml_l</span> <span class="o">=</span> <span class="n">XGBRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">ml_m</span> <span class="o">=</span> <span class="n">XGBRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># Partial Linear Model</span>
+<span class="n">dml_plr</span> <span class="o">=</span> <span class="n">DoubleMLPLR</span><span class="p">(</span><span class="n">dml_data</span><span class="p">,</span> <span class="n">ml_l</span><span class="o">=</span><span class="n">ml_l</span><span class="p">,</span> <span class="n">ml_m</span><span class="o">=</span><span class="n">ml_m</span><span class="p">)</span>
+<span class="n">dml_plr</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+
+<span class="c1"># Treatment effect estimate</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Theta_hat:&quot;</span><span class="p">,</span> <span class="n">dml_plr</span><span class="o">.</span><span class="n">coef</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Std. Error:&quot;</span><span class="p">,</span> <span class="n">dml_plr</span><span class="o">.</span><span class="n">se</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/lib/python3.12/dist-packages/sklearn/utils/deprecation.py:151: FutureWarning: &#39;force_all_finite&#39; was renamed to &#39;ensure_all_finite&#39; in 1.6 and will be removed in 1.8.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/sklearn/utils/deprecation.py:151: FutureWarning: &#39;force_all_finite&#39; was renamed to &#39;ensure_all_finite&#39; in 1.6 and will be removed in 1.8.
+  warnings.warn(
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Theta_hat: [-2.63091515e-07]
+Std. Error: [5.03190713e-07]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dml_plr<span class="o">?</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dml_plr</span><span class="o">.</span><span class="n">summary</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-75ff9d29-b61d-4d68-b91a-7f68ae59c2ca" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>coef</th>
+      <th>std err</th>
+      <th>t</th>
+      <th>P&gt;|t|</th>
+      <th>2.5 %</th>
+      <th>97.5 %</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>price</th>
+      <td>-2.630915e-07</td>
+      <td>5.031907e-07</td>
+      <td>-0.522847</td>
+      <td>0.601081</td>
+      <td>-0.000001</td>
+      <td>7.231442e-07</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-75ff9d29-b61d-4d68-b91a-7f68ae59c2ca')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-75ff9d29-b61d-4d68-b91a-7f68ae59c2ca button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-75ff9d29-b61d-4d68-b91a-7f68ae59c2ca');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+    </div>
+  </div>
+</div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="sequential_test.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><strong>Reinforcement Learning for Optimal Alpha Spending Function in Sequential Hypothesis Testing</strong></p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data Preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instrumental-variable">Instrumental Variable</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#heckman-correction">Heckman Correction</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Jacqueline
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
