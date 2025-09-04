@@ -406,9 +406,15 @@ document.write(`
 <p>Rambling by Jacqueline.</p>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
-<p>Product experiements are commonly in the form of a <span class="math notranslate nohighlight">\(z\)</span>-test (or <span class="math notranslate nohighlight">\(t\)</span>-test), comparing the 2 means of some KPI of both the control and test groups, say <span class="math notranslate nohighlight">\(\mu_1\)</span> and <span class="math notranslate nohighlight">\(\mu_2\)</span> respectively. The test is of course conducted after all data is collected. Furthermore,
-$<span class="math notranslate nohighlight">\(H_0: \mu_1 = \mu_2\)</span><span class="math notranslate nohighlight">\(
-\)</span><span class="math notranslate nohighlight">\(H_A: \mu_1 &lt; \mu_2\)</span>$</p>
+<p>Product experiements are commonly in the form of a <span class="math notranslate nohighlight">\(z\)</span>-test (or <span class="math notranslate nohighlight">\(t\)</span>-test), comparing the 2 means of some KPI of both the control and test groups, say <span class="math notranslate nohighlight">\(\mu_1\)</span> and <span class="math notranslate nohighlight">\(\mu_2\)</span> respectively. The test is of course conducted after all data is collected. Furthermore,</p>
+<div class="math notranslate nohighlight">
+\[
+H_0: \mu_1 = \mu_2
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+H_A: \mu_1 &lt; \mu_2
+\]</div>
 <p>Given significance level <span class="math notranslate nohighlight">\(\alpha\)</span>, if we find statistical significance, <span class="math notranslate nohighlight">\(H_0\)</span> is rejected and we accept <span class="math notranslate nohighlight">\(H_A\)</span>; the new product is considered a success.
 <em>However, what happens when we do not find significance?</em></p>
 <p>Say that we decided more data is needed and the data collection period is extended. Both the control and test groups grow in sample size. We then conduct the <span class="math notranslate nohighlight">\(z\)</span>-test a second time at some significance level. <em>Why don’t we continue this process until we reached significance?</em></p>
@@ -416,8 +422,11 @@ $<span class="math notranslate nohighlight">\(H_0: \mu_1 = \mu_2\)</span><span c
 <h3><em>Sampling to reach a foregone conclusion</em><a class="headerlink" href="#sampling-to-reach-a-foregone-conclusion" title="Link to this heading">#</a></h3>
 <p><strong>Type I Error</strong> (False Positive Error) is the risk of incorrectly rejecting a true <span class="math notranslate nohighlight">\(H_0\)</span>. In other words, we conclude the new version of the product is a success while it is not, risking shipping a product that does not have a positive effect on our customers.</p>
 <p><strong>Significance level <span class="math notranslate nohighlight">\(\alpha\)</span></strong> is also the maximum probability of observing Type I Errors that the experimenter will accept in the long run.</p>
-<p>If we conduct the test once, the probability of not getting a FP error is <span class="math notranslate nohighlight">\(1-\alpha\)</span>. If we conduct the tests above <span class="math notranslate nohighlight">\(k\)</span> times, each at <span class="math notranslate nohighlight">\(\alpha\)</span>, the change of observing at least one false positive grows
-$<span class="math notranslate nohighlight">\(P(\geq 1 \text{ FP }) = 1 - P(&lt; 1 \text{ FP }) = 1 - (1-\alpha)^k\)</span>$</p>
+<p>If we conduct the test once, the probability of not getting a FP error is <span class="math notranslate nohighlight">\(1-\alpha\)</span>. If we conduct the tests above <span class="math notranslate nohighlight">\(k\)</span> times, each at <span class="math notranslate nohighlight">\(\alpha\)</span>, the change of observing at least one false positive grows</p>
+<div class="math notranslate nohighlight">
+\[
+P(\geq 1 \text{ FP }) = 1 - P(&lt; 1 \text{ FP }) = 1 - (1-\alpha)^k
+\]</div>
 <p><em>As <span class="math notranslate nohighlight">\(k \to ∞\)</span>, just by chance, the probability you make at least one FP increases.</em></p>
 </section>
 <section id="sampling-to-reach-a-foregone-conclusion-but-formal">
@@ -593,15 +602,27 @@ At each test \)</span>k$, the DM has 3 actions:</p>
 </div>
 </div>
 </div>
-<p>Framing the problem as a CMDP, our goal is to maximize power (probability of correct rejection) while under the constraint that the False Positive Rate is bounded by <span class="math notranslate nohighlight">\(\alpha\)</span>.
-$<span class="math notranslate nohighlight">\( P(\text{ Reject } H_0 | H_0 \text{ true })\leq \alpha\)</span>$</p>
-<p>The <strong>objective function</strong> is then,
-$<span class="math notranslate nohighlight">\(J(\pi) = E_\pi(\text{Power}) \quad \text{ s.t. } \quad  E_\pi(\text{Type I Error}) \leq \alpha \)</span><span class="math notranslate nohighlight">\(
-The objective function is also optimized for power if we optimize for utility (reward). Equivalently,
-\)</span><span class="math notranslate nohighlight">\(J(\pi)= E_{H_A}(\text{Utility}) \quad \text{ s.t. } \quad E_{H_0}(1\{\text{Reject}\}) \leq \alpha \)</span>$</p>
-<p>This is a contrained optimizatio problem, so we use <strong>Lagrangian Multiplier</strong> to formulate it into a saddle optimization problem:
-$<span class="math notranslate nohighlight">\(L(\pi, \lambda) = J(\pi) - \lambda\times(E_{H_0}(\text{Reject}) - \alpha )\)</span><span class="math notranslate nohighlight">\(
-We optimize \)</span>L$ by  <strong>Primal-Dual Alogrithm</strong>, i.e., iteratively</p>
+<p>Framing the problem as a CMDP, our goal is to maximize power (probability of correct rejection) while under the constraint that the False Positive Rate is bounded by <span class="math notranslate nohighlight">\(\alpha\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+P(\text{ Reject } H_0 | H_0 \text{ true })\leq \alpha
+\]</div>
+<p>The <strong>objective function</strong> is then,</p>
+<div class="math notranslate nohighlight">
+\[
+J(\pi) = E_\pi(\text{Power}) \quad \text{ s.t. } \quad  E_\pi(\text{Type I Error}) \leq \alpha
+\]</div>
+<p>The objective function is also optimized for power if we optimize for utility (reward). Equivalently,</p>
+<div class="math notranslate nohighlight">
+\[
+J(\pi)= E_{H_A}(\text{Utility}) \quad \text{ s.t. } \quad E_{H_0}(1\{\text{Reject}\}) \leq \alpha
+\]</div>
+<p>This is a contrained optimizatio problem, so we use <strong>Lagrangian Multiplier</strong> to formulate it into a saddle optimization problem:</p>
+<div class="math notranslate nohighlight">
+\[
+L(\pi, \lambda) = J(\pi) - \lambda\times(E_{H_0}(\text{Reject}) - \alpha )
+\]</div>
+<p>We optimize <span class="math notranslate nohighlight">\(L\)</span> by  <strong>Primal-Dual Alogrithm</strong>, i.e., iteratively</p>
 <ol class="arabic simple">
 <li><p><em>Policy Update</em>: Maximize <span class="math notranslate nohighlight">\(J(\pi)\)</span> via Proximal Policy Optimization (PPO)</p></li>
 <li><p><em>Multiplier Update</em>: Minimize <span class="math notranslate nohighlight">\(- \lambda\times(E_{H_0}(\text{Reject}) - \alpha )\)</span> via dual ascent algoritm for constraint</p></li>
@@ -773,63 +794,66 @@ We optimize \)</span>L$ by  <strong>Primal-Dual Alogrithm</strong>, i.e., iterat
 <span class="p">}</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">policy</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">run_training</span><span class="p">(</span><span class="n">DEFAULT_CONFIG</span><span class="p">)</span>
+    <span class="n">policy</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">cumulative_alpha_history</span> <span class="o">=</span> <span class="n">run_training</span><span class="p">(</span><span class="n">DEFAULT_CONFIG</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 0: reward=0.000, cost=0.060, lambda=1.000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 0: reward=0.000, cost=0.040, lambda=1.000
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 10: reward=0.000, cost=0.040, lambda=0.999
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 10: reward=0.000, cost=0.080, lambda=0.999
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 20: reward=0.000, cost=0.040, lambda=0.999
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 20: reward=0.000, cost=0.020, lambda=1.001
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 30: reward=0.000, cost=0.060, lambda=0.999
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 30: reward=0.000, cost=0.100, lambda=1.000
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 40: reward=0.000, cost=0.040, lambda=1.000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 40: reward=0.000, cost=0.020, lambda=1.000
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 50: reward=0.000, cost=0.080, lambda=0.999
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 50: reward=0.000, cost=0.020, lambda=1.000
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 60: reward=0.000, cost=0.040, lambda=0.999
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 60: reward=0.000, cost=0.040, lambda=1.000
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 70: reward=0.000, cost=0.060, lambda=0.998
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 70: reward=0.000, cost=0.060, lambda=1.001
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 80: reward=0.000, cost=0.060, lambda=1.000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 80: reward=0.000, cost=0.000, lambda=0.999
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 90: reward=0.000, cost=0.040, lambda=1.001
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 90: reward=0.000, cost=0.040, lambda=0.999
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 100: reward=0.000, cost=0.040, lambda=1.001
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 100: reward=0.000, cost=0.040, lambda=0.998
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 110: reward=0.000, cost=0.060, lambda=1.002
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 110: reward=0.000, cost=0.020, lambda=0.998
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 120: reward=0.000, cost=0.080, lambda=1.001
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 120: reward=0.000, cost=0.020, lambda=0.996
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 130: reward=0.000, cost=0.000, lambda=1.000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 130: reward=0.000, cost=0.080, lambda=0.998
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 140: reward=0.000, cost=0.020, lambda=1.000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 140: reward=0.000, cost=0.040, lambda=0.998
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 150: reward=0.000, cost=0.020, lambda=0.999
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 150: reward=0.000, cost=0.040, lambda=0.997
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 160: reward=0.000, cost=0.020, lambda=0.997
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 160: reward=0.000, cost=0.060, lambda=0.997
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 170: reward=0.000, cost=0.080, lambda=0.996
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 170: reward=0.000, cost=0.080, lambda=0.998
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 180: reward=0.000, cost=0.080, lambda=0.999
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
@@ -842,7 +866,7 @@ We optimize \)</span>L$ by  <strong>Primal-Dual Alogrithm</strong>, i.e., iterat
 <span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="s1">&#39;batch_episodes&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="c1"># in each train iter, experiments repetition</span>
 <span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="p">}</span>
 <span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-<span class="ne">---&gt; </span><span class="mi">12</span>     <span class="n">policy</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">run_training</span><span class="p">(</span><span class="n">DEFAULT_CONFIG</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">12</span>     <span class="n">policy</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">cumulative_alpha_history</span> <span class="o">=</span> <span class="n">run_training</span><span class="p">(</span><span class="n">DEFAULT_CONFIG</span><span class="p">)</span>
 
 <span class="nn">Input In [4],</span> in <span class="ni">run_training</span><span class="nt">(config)</span>
 <span class="g g-Whitespace">     </span><span class="mi">33</span> <span class="n">st</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -875,29 +899,18 @@ We optimize \)</span>L$ by  <strong>Primal-Dual Alogrithm</strong>, i.e., iterat
 <span class="g g-Whitespace">   </span><span class="mi">1523</span>     <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
 
 <span class="nn">Input In [3],</span> in <span class="ni">PolicyNet.forward</span><span class="nt">(self, x)</span>
-<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-<span class="ne">---&gt; </span><span class="mi">17</span>     <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-<span class="g g-Whitespace">     </span><span class="mi">18</span>     <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
-<span class="g g-Whitespace">     </span><span class="mi">19</span>     <span class="n">mu</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>  <span class="c1"># action in [0,1]</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+<span class="ne">---&gt; </span><span class="mi">19</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>  <span class="c1"># action in [0,1]</span>
+<span class="g g-Whitespace">     </span><span class="mi">20</span> <span class="n">std</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log_std</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="k">return</span> <span class="n">mu</span><span class="p">,</span> <span class="n">std</span>
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/torch/nn/modules/module.py:1511,</span> in <span class="ni">Module._wrapped_call_impl</span><span class="nt">(self, *args, **kwargs)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1509</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compiled_call_impl</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore[misc]</span>
-<span class="g g-Whitespace">   </span><span class="mi">1510</span> <span class="k">else</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">1511</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_impl</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/torch/nn/modules/module.py:1520,</span> in <span class="ni">Module._call_impl</span><span class="nt">(self, *args, **kwargs)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1515</span> <span class="c1"># If we don&#39;t have any hooks, we want to skip the rest of the logic in</span>
-<span class="g g-Whitespace">   </span><span class="mi">1516</span> <span class="c1"># this function, and just call forward.</span>
-<span class="g g-Whitespace">   </span><span class="mi">1517</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_backward_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backward_pre_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_pre_hooks</span>
-<span class="g g-Whitespace">   </span><span class="mi">1518</span>         <span class="ow">or</span> <span class="n">_global_backward_pre_hooks</span> <span class="ow">or</span> <span class="n">_global_backward_hooks</span>
-<span class="g g-Whitespace">   </span><span class="mi">1519</span>         <span class="ow">or</span> <span class="n">_global_forward_hooks</span> <span class="ow">or</span> <span class="n">_global_forward_pre_hooks</span><span class="p">):</span>
-<span class="ne">-&gt; </span><span class="mi">1520</span>     <span class="k">return</span> <span class="n">forward_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1522</span> <span class="k">try</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1523</span>     <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
-
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/torch/nn/modules/linear.py:116,</span> in <span class="ni">Linear.forward</span><span class="nt">(self, input)</span>
-<span class="g g-Whitespace">    </span><span class="mi">115</span> <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">116</span>     <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">)</span>
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/torch/nn/modules/module.py:1507,</span> in <span class="ni">Module._wrapped_call_impl</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1504</span>             <span class="n">tracing_state</span><span class="o">.</span><span class="n">pop_scope</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1505</span>     <span class="k">return</span> <span class="n">result</span>
+<span class="ne">-&gt; </span><span class="mi">1507</span> <span class="k">def</span> <span class="nf">_wrapped_call_impl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1508</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compiled_call_impl</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1509</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compiled_call_impl</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore[misc]</span>
 
 <span class="ne">KeyboardInterrupt</span>: 
 </pre></div>
@@ -915,46 +928,7 @@ We optimize \)</span>L$ by  <strong>Primal-Dual Alogrithm</strong>, i.e., iterat
 Plot the recorded cumulative alpha spending curves for different training iterations on the same graph to show the evolution of the learned alpha spending function.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cumulative_alpha_history</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(20,)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-
-<span class="c1"># Run the training with the updated function to get the history</span>
-<span class="n">policy</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">cumulative_alpha_history</span> <span class="o">=</span> <span class="n">run_training</span><span class="p">(</span><span class="n">DEFAULT_CONFIG</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 0: reward=0.000, cost=0.040, lambda=1.000
-Iter 10: reward=0.000, cost=0.100, lambda=1.000
-Iter 20: reward=0.000, cost=0.020, lambda=1.001
-Iter 30: reward=0.000, cost=0.020, lambda=1.001
-Iter 40: reward=0.000, cost=0.060, lambda=1.001
-Iter 50: reward=0.000, cost=0.060, lambda=1.002
-Iter 60: reward=0.000, cost=0.100, lambda=1.002
-Iter 70: reward=0.000, cost=0.060, lambda=1.002
-Iter 80: reward=0.000, cost=0.000, lambda=1.003
-Iter 90: reward=0.000, cost=0.040, lambda=1.002
-Iter 100: reward=0.000, cost=0.020, lambda=1.001
-Iter 110: reward=0.000, cost=0.000, lambda=1.001
-Iter 120: reward=0.000, cost=0.000, lambda=1.000
-Iter 130: reward=0.000, cost=0.020, lambda=0.998
-Iter 140: reward=0.000, cost=0.060, lambda=0.998
-Iter 150: reward=0.000, cost=0.040, lambda=0.999
-Iter 160: reward=0.000, cost=0.000, lambda=0.996
-Iter 170: reward=0.000, cost=0.080, lambda=0.997
-Iter 180: reward=0.000, cost=0.020, lambda=0.997
-Iter 190: reward=0.000, cost=0.120, lambda=0.998
 </pre></div>
 </div>
 </div>
@@ -992,7 +966,7 @@ Iter 190: reward=0.000, cost=0.120, lambda=0.998
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/e1052d70268b9e27b6f9dde2d32ca63bb9453ca2733710b469371bf49421d333.png" src="_images/e1052d70268b9e27b6f9dde2d32ca63bb9453ca2733710b469371bf49421d333.png" />
+<img alt="_images/37418df1b717aacc435b6f287e035d5344cbbd8560be75eeecfa7cf6457ef582.png" src="_images/37418df1b717aacc435b6f287e035d5344cbbd8560be75eeecfa7cf6457ef582.png" />
 </div>
 </div>
 <p>So interesting! I was expecting some sort of convergence to Lan &amp; DeMets, but the RL learned policy suggests spending <strong>way</strong> more alpha at the begining of the trial. Both alpha spending strategies keep early significance level high, keeping the trial going to accumulate more data. I wonder which functional form the RL converged to.</p>

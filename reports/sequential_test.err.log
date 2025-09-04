@@ -34,6 +34,6 @@ Here is a preview of the cell contents:
 -------------------
 ['DEFAULT_CONFIG = {', "    'alpha': 0.05,", "    'max_looks': 20,", "    'batch_size': 10,", "    'lr': 1e-3,"]
 ...
-["    'batch_episodes': 50, # in each train iter, experiments repetition", '}', '', 'if __name__ == "__main__":', '    policy, value = run_training(DEFAULT_CONFIG)']
+["    'batch_episodes': 50, # in each train iter, experiments repetition", '}', '', 'if __name__ == "__main__":', '    policy, value, cumulative_alpha_history = run_training(DEFAULT_CONFIG)']
 -------------------
 

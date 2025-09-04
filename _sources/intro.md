@@ -1,8 +1,6 @@
 # The Null Space
 Mathematical Dilly Dally-ing by Jackie. [Main page](https://www.jacquelinedoan.com)
 
-![me](me.jpg)
-
 I'm an **Applied Machine Learning Scientist** in Toronto. Before that I was a Quantitative Associate. My Masters degree was at Western University studying Pure Mathematics and Computational Neuroscience. After work I hang out with my cat Edie (below).
 
 ## Personal Curriculum
