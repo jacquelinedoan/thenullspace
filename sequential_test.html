@@ -155,8 +155,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="The Null Space - Home"/>
-    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="The Null Space - Home"/>`);</script>
+    <img src="_static/logo.jpeg" class="logo__image only-light" alt="The Null Space - Home"/>
+    <script>document.write(`<img src="_static/logo.jpeg" class="logo__image only-dark" alt="The Null Space - Home"/>`);</script>
   
   
 </a></div>
@@ -422,25 +422,44 @@ $<span class="math notranslate nohighlight">\(P(\geq 1 \text{ FP }) = 1 - P(&lt;
 </section>
 <section id="sampling-to-reach-a-foregone-conclusion-but-formal">
 <h3>Sampling to reach a foregone conclusion, but formal.<a class="headerlink" href="#sampling-to-reach-a-foregone-conclusion-but-formal" title="Link to this heading">#</a></h3>
-<p>Let <span class="math notranslate nohighlight">\(X_1, X_2, \dots \sim N(\mu, \sigma^2)\)</span> where <span class="math notranslate nohighlight">\(\sigma^2\)</span> is known. Consider the test of <span class="math notranslate nohighlight">\(H_0: \mu=0\)</span> and <span class="math notranslate nohighlight">\(H_A: \mu\neq 0\)</span>. Let <span class="math notranslate nohighlight">\(S_n = \sum_{i=1}^nX_i\)</span>. Under <span class="math notranslate nohighlight">\(H_0\)</span>, <span class="math notranslate nohighlight">\(S_n \sim N(0, n\sigma^2)\)</span>. Thus the rejection region is such that <span class="math notranslate nohighlight">\(|S_n|&gt;1.96\sigma\sqrt{n}\)</span> for <span class="math notranslate nohighlight">\(\alpha=0.05\)</span>. We will show that as <span class="math notranslate nohighlight">\(n\to ∞\)</span>, or, as we keep doing more iterim tests, we will eventually (in probability) arrive at the rejection region. <em>The Law of Iterated Logarithm</em> implies that
-$<span class="math notranslate nohighlight">\(\lim_{n\to ∞} \sup \frac{S_n}{\sigma\sqrt{2n\log \log n}}=1 \quad \text{ with probability } 1\)</span><span class="math notranslate nohighlight">\(
-In other words, \)</span>S_n$ is growing as fast as the denominator, which is unbounded.</p>
+<p>Let <span class="math notranslate nohighlight">\(X_1, X_2, \dots \sim N(\mu, \sigma^2)\)</span> where <span class="math notranslate nohighlight">\(\sigma^2\)</span> is known. Consider the test of <span class="math notranslate nohighlight">\(H_0: \mu=0\)</span> and <span class="math notranslate nohighlight">\(H_A: \mu\neq 0\)</span>. Let <span class="math notranslate nohighlight">\(S_n = \sum_{i=1}^nX_i\)</span>. Under <span class="math notranslate nohighlight">\(H_0\)</span>, <span class="math notranslate nohighlight">\(S_n \sim N(0, n\sigma^2)\)</span>. Thus the rejection region is such that <span class="math notranslate nohighlight">\(|S_n|&gt;1.96\sigma\sqrt{n}\)</span> for <span class="math notranslate nohighlight">\(\alpha=0.05\)</span>. We will show that as <span class="math notranslate nohighlight">\(n\to ∞\)</span>, or, as we keep doing more iterim tests, we will eventually (in probability) arrive at the rejection region. <em>The Law of Iterated Logarithm</em> implies that</p>
+<div class="math notranslate nohighlight">
+\[
+\lim_{n\to ∞} \sup \frac{S_n}{\sigma\sqrt{2n\log \log n}}=1 \quad \text{ with probability } 1
+\]</div>
+<p>In other words, <span class="math notranslate nohighlight">\(S_n\)</span> is growing as fast as the denominator, which is unbounded.</p>
 </section>
 <section id="lan-demets-1983">
 <h3>Lan &amp; DeMets (1983)<a class="headerlink" href="#lan-demets-1983" title="Link to this heading">#</a></h3>
-<p>Recall the typical 2 sample problem, where we want to compare the responses to treatments A and B, say the responses follows the distributions <span class="math notranslate nohighlight">\(N(\mu_A, \sigma)\)</span> and <span class="math notranslate nohighlight">\(N(\mu_B, \sigma)\)</span> respectively, and <span class="math notranslate nohighlight">\(H_0: \mu_A = \mu_B\)</span>. Say there are <span class="math notranslate nohighlight">\(n\)</span> observations in each group (<span class="math notranslate nohighlight">\(2n\)</span> observations in total), and a <span class="math notranslate nohighlight">\(z\)</span>-test is conducted. Then we reject <span class="math notranslate nohighlight">\(H_0\)</span> if and only if
-$<span class="math notranslate nohighlight">\(Z=\left|\frac{\bar{X}_A - \bar{X}_B }{\sqrt{2\sigma^2/n}}\right|&gt;1.96\)</span>$</p>
-<p>Now, say we collect data such that once <span class="math notranslate nohighlight">\(n\)</span> new observations are collected in each group, we conduct another <span class="math notranslate nohighlight">\(z\)</span>-test, only on the new data for the sake of independence. We will conduct <span class="math notranslate nohighlight">\(K\)</span> tests in total, and there will be <span class="math notranslate nohighlight">\(2nK\)</span> observations at the end. The statistic at step <span class="math notranslate nohighlight">\(j\)</span> is
-$<span class="math notranslate nohighlight">\(Y_j = \frac{\bar{X}_{A_j} - \bar{X}_{A_j}}{\sqrt{2\sigma^2/n}} \sim N(\delta^*, 1)\)</span>$</p>
-<p>where <span class="math notranslate nohighlight">\(\delta^* = \frac{\delta}{\sqrt{2\sigma^2/n}}\)</span>. Then <span class="math notranslate nohighlight">\(S_k = \sum_j^kY_j \sim N(\sigma^*k, k)\)</span>. Then the rejection region per interim test is defined by boundaries <span class="math notranslate nohighlight">\(b_k\)</span>, namely
-$<span class="math notranslate nohighlight">\(|S_k|&gt;b_k\)</span><span class="math notranslate nohighlight">\(
-such that
-\)</span><span class="math notranslate nohighlight">\(P(|S_1|\leq b_1, \dots, |S_K|\leq b_K) \leq 1-\alpha\)</span><span class="math notranslate nohighlight">\(
-Equivalently, let \)</span>f<span class="math notranslate nohighlight">\( be the joint pdf of the score statistics,
-\)</span><span class="math notranslate nohighlight">\(\int^{b_1}_{-b_1} \dots \int^{b_K}_{-b_K} f(s_1, \dots, s_K)d_{s_1}\dots d_{s_K} = 1-\alpha\)</span>$</p>
-<p>Lan &amp; DeMets (1983) proposed the <span class="math notranslate nohighlight">\(\alpha\)</span>-spending function, <span class="math notranslate nohighlight">\(\alpha^*\)</span>, a non-decreasing function. The significance level to use at each step is <span class="math notranslate nohighlight">\(\alpha_k = \alpha^*(t_k) - \alpha^*(t_{k-1})\)</span>. They went further to suggest a functional form, namely
-$<span class="math notranslate nohighlight">\(\alpha^*(t) = \alpha \log (1+(e-1)t)\)</span>$
-for the set up in Pocock (1977).</p>
+<p>Recall the typical 2 sample problem, where we want to compare the responses to treatments A and B, say the responses follows the distributions <span class="math notranslate nohighlight">\(N(\mu_A, \sigma)\)</span> and <span class="math notranslate nohighlight">\(N(\mu_B, \sigma)\)</span> respectively, and <span class="math notranslate nohighlight">\(H_0: \mu_A = \mu_B\)</span>. Say there are <span class="math notranslate nohighlight">\(n\)</span> observations in each group (<span class="math notranslate nohighlight">\(2n\)</span> observations in total), and a <span class="math notranslate nohighlight">\(z\)</span>-test is conducted. Then we reject <span class="math notranslate nohighlight">\(H_0\)</span> if and only if</p>
+<div class="math notranslate nohighlight">
+\[Z=\left|\frac{\bar{X}_A - \bar{X}_B }{\sqrt{2\sigma^2/n}}\right|&gt;1.96\]</div>
+<p>Now, say we collect data such that once <span class="math notranslate nohighlight">\(n\)</span> new observations are collected in each group, we conduct another <span class="math notranslate nohighlight">\(z\)</span>-test, only on the new data for the sake of independence. We will conduct <span class="math notranslate nohighlight">\(K\)</span> tests in total, and there will be <span class="math notranslate nohighlight">\(2nK\)</span> observations at the end. The statistic at step <span class="math notranslate nohighlight">\(j\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[
+Y_j = \frac{\bar{X}_{A_j} - \bar{X}_{A_j}}{\sqrt{2\sigma^2/n}} \sim N(\delta^*, 1)
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\delta^* = \frac{\delta}{\sqrt{2\sigma^2/n}}\)</span>. Then <span class="math notranslate nohighlight">\(S_k = \sum_j^kY_j \sim N(\sigma^*k, k)\)</span>. Then the rejection region per interim test is defined by boundaries <span class="math notranslate nohighlight">\(b_k\)</span>, namely</p>
+<div class="math notranslate nohighlight">
+\[|
+S_k|&gt;b_k
+\]</div>
+<p>such that</p>
+<div class="math notranslate nohighlight">
+\[
+P(|S_1|\leq b_1, \dots, |S_K|\leq b_K) \leq 1-\alpha
+\]</div>
+<p>Equivalently, let <span class="math notranslate nohighlight">\(f\)</span> be the joint pdf of the score statistics,</p>
+<div class="math notranslate nohighlight">
+\[
+\int^{b_1}_{-b_1} \dots \int^{b_K}_{-b_K} f(s_1, \dots, s_K)d_{s_1}\dots d_{s_K} = 1-\alpha
+\]</div>
+<p>Lan &amp; DeMets (1983) proposed the <span class="math notranslate nohighlight">\(\alpha\)</span>-spending function, <span class="math notranslate nohighlight">\(\alpha^*\)</span>, a non-decreasing function. The significance level to use at each step is <span class="math notranslate nohighlight">\(\alpha_k = \alpha^*(t_k) - \alpha^*(t_{k-1})\)</span>. They went further to suggest a functional form, namely</p>
+<div class="math notranslate nohighlight">
+\[
+\alpha^*(t) = \alpha \log (1+(e-1)t)
+\]</div>
+<p>for the set up in Pocock (1977).</p>
 </section>
 <section id="id1">
 <h3>Introduction<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
@@ -759,37 +778,58 @@ We optimize \)</span>L$ by  <strong>Primal-Dual Alogrithm</strong>, i.e., iterat
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 0: reward=0.000, cost=0.020, lambda=1.000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 0: reward=0.000, cost=0.060, lambda=1.000
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 10: reward=0.000, cost=0.060, lambda=0.999
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 10: reward=0.000, cost=0.040, lambda=0.999
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 20: reward=0.000, cost=0.080, lambda=0.999
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 20: reward=0.000, cost=0.040, lambda=0.999
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 30: reward=0.000, cost=0.040, lambda=0.998
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 30: reward=0.000, cost=0.060, lambda=0.999
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 40: reward=0.000, cost=0.040, lambda=0.999
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 40: reward=0.000, cost=0.040, lambda=1.000
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 50: reward=0.000, cost=0.060, lambda=1.003
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 50: reward=0.000, cost=0.080, lambda=0.999
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 60: reward=0.000, cost=0.060, lambda=1.004
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 60: reward=0.000, cost=0.040, lambda=0.999
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 70: reward=0.000, cost=0.060, lambda=1.005
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 70: reward=0.000, cost=0.060, lambda=0.998
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 80: reward=0.000, cost=0.080, lambda=1.007
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 80: reward=0.000, cost=0.060, lambda=1.000
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 90: reward=0.000, cost=0.060, lambda=1.006
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 90: reward=0.000, cost=0.040, lambda=1.001
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 100: reward=0.000, cost=0.060, lambda=1.005
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 100: reward=0.000, cost=0.040, lambda=1.001
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 110: reward=0.000, cost=0.060, lambda=1.002
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 120: reward=0.000, cost=0.080, lambda=1.001
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 130: reward=0.000, cost=0.000, lambda=1.000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 140: reward=0.000, cost=0.020, lambda=1.000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 150: reward=0.000, cost=0.020, lambda=0.999
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 160: reward=0.000, cost=0.020, lambda=0.997
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 170: reward=0.000, cost=0.080, lambda=0.996
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
@@ -813,16 +853,51 @@ We optimize \)</span>L$ by  <strong>Primal-Dual Alogrithm</strong>, i.e., iterat
 <span class="g g-Whitespace">     </span><span class="mi">39</span> <span class="n">temp_alpha_rem</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">alpha_rem</span>
 
 <span class="nn">Input In [3],</span> in <span class="ni">PolicyNet.sample</span><span class="nt">(self, x)</span>
-<span class="g g-Whitespace">     </span><span class="mi">25</span> <span class="n">mu</span><span class="p">,</span> <span class="n">std</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">26</span> <span class="n">dist</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">std</span><span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">27</span> <span class="n">action</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">sample</span><span class="p">(),</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">28</span> <span class="n">log_prob</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">29</span> <span class="k">return</span> <span class="n">action</span><span class="p">,</span> <span class="n">log_prob</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">24</span>   <span class="c1"># sample action</span>
+<span class="ne">---&gt; </span><span class="mi">25</span>     <span class="n">mu</span><span class="p">,</span> <span class="n">std</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">26</span>     <span class="n">dist</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">std</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">27</span>     <span class="n">action</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">sample</span><span class="p">(),</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/torch/distributions/normal.py:70,</span> in <span class="ni">Normal.sample</span><span class="nt">(self, sample_shape)</span>
-<span class="g g-Whitespace">     </span><span class="mi">68</span> <span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extended_shape</span><span class="p">(</span><span class="n">sample_shape</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">69</span> <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-<span class="ne">---&gt; </span><span class="mi">70</span>     <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loc</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">shape</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">shape</span><span class="p">))</span>
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/torch/nn/modules/module.py:1511,</span> in <span class="ni">Module._wrapped_call_impl</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1509</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compiled_call_impl</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore[misc]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1510</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1511</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_impl</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/torch/nn/modules/module.py:1520,</span> in <span class="ni">Module._call_impl</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1515</span> <span class="c1"># If we don&#39;t have any hooks, we want to skip the rest of the logic in</span>
+<span class="g g-Whitespace">   </span><span class="mi">1516</span> <span class="c1"># this function, and just call forward.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1517</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_backward_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backward_pre_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_pre_hooks</span>
+<span class="g g-Whitespace">   </span><span class="mi">1518</span>         <span class="ow">or</span> <span class="n">_global_backward_pre_hooks</span> <span class="ow">or</span> <span class="n">_global_backward_hooks</span>
+<span class="g g-Whitespace">   </span><span class="mi">1519</span>         <span class="ow">or</span> <span class="n">_global_forward_hooks</span> <span class="ow">or</span> <span class="n">_global_forward_pre_hooks</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">1520</span>     <span class="k">return</span> <span class="n">forward_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1522</span> <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1523</span>     <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="nn">Input In [3],</span> in <span class="ni">PolicyNet.forward</span><span class="nt">(self, x)</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">17</span>     <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span>     <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span>     <span class="n">mu</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>  <span class="c1"># action in [0,1]</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/torch/nn/modules/module.py:1511,</span> in <span class="ni">Module._wrapped_call_impl</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1509</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compiled_call_impl</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore[misc]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1510</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1511</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_impl</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/torch/nn/modules/module.py:1520,</span> in <span class="ni">Module._call_impl</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1515</span> <span class="c1"># If we don&#39;t have any hooks, we want to skip the rest of the logic in</span>
+<span class="g g-Whitespace">   </span><span class="mi">1516</span> <span class="c1"># this function, and just call forward.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1517</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_backward_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backward_pre_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_pre_hooks</span>
+<span class="g g-Whitespace">   </span><span class="mi">1518</span>         <span class="ow">or</span> <span class="n">_global_backward_pre_hooks</span> <span class="ow">or</span> <span class="n">_global_backward_hooks</span>
+<span class="g g-Whitespace">   </span><span class="mi">1519</span>         <span class="ow">or</span> <span class="n">_global_forward_hooks</span> <span class="ow">or</span> <span class="n">_global_forward_pre_hooks</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">1520</span>     <span class="k">return</span> <span class="n">forward_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1522</span> <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1523</span>     <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/torch/nn/modules/linear.py:116,</span> in <span class="ni">Linear.forward</span><span class="nt">(self, input)</span>
+<span class="g g-Whitespace">    </span><span class="mi">115</span> <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">116</span>     <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">)</span>
 
 <span class="ne">KeyboardInterrupt</span>: 
 </pre></div>
